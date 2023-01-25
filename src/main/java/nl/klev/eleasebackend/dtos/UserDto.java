@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public class UserDto {
     private Long id;
-<<<<<<< HEAD
     private String fullName;
     private LocalDate dob;
     private String email;
@@ -12,16 +11,11 @@ public class UserDto {
     private String password;
     private String username;
     private int drivingLicenseNumber;
-=======
-    private String firstName;
-    private String lastName;
-    private LocalDate dob;
->>>>>>> e9f3d9ece8e612539d6c0f67c8992f44afb456c0
+
 
     public UserDto() {
     }
 
-<<<<<<< HEAD
     public UserDto(Long id, String fullName, LocalDate dob, String email, String iban, String password, String username, int drivingLicenseNumber) {
         this.id = id;
         this.fullName = fullName;
@@ -33,8 +27,7 @@ public class UserDto {
         this.drivingLicenseNumber = drivingLicenseNumber;
     }
 
-=======
->>>>>>> e9f3d9ece8e612539d6c0f67c8992f44afb456c0
+
     public Long getId() {
         return id;
     }
@@ -43,30 +36,14 @@ public class UserDto {
         this.id = id;
     }
 
-<<<<<<< HEAD
     public String getFullName() {
         return fullName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-=======
-    public String getFirstName() {
-        return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
->>>>>>> e9f3d9ece8e612539d6c0f67c8992f44afb456c0
-    }
 
     public LocalDate getDob() {
         return dob;
@@ -75,7 +52,7 @@ public class UserDto {
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
-<<<<<<< HEAD
+
 
     public String getEmail() {
         return email;
@@ -116,6 +93,4 @@ public class UserDto {
     public void setDrivingLicenseNumber(int drivingLicenseNumber) {
         this.drivingLicenseNumber = drivingLicenseNumber;
     }
-=======
->>>>>>> e9f3d9ece8e612539d6c0f67c8992f44afb456c0
 }
