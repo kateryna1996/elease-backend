@@ -8,9 +8,12 @@ import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.utilities.UserTransform;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+>>>>>>> e9f3d9ece8e612539d6c0f67c8992f44afb456c0
 @Service
 public class UserService {
 
@@ -28,6 +31,7 @@ public class UserService {
 
         return UserTransform.toUserDto(createdUser);
     }
+<<<<<<< HEAD
 
     public List<UserDto> getUsers() {
         List<UserDto> userDtosList = new ArrayList<>();
@@ -37,4 +41,6 @@ public class UserService {
         }
         return userDtosList;
     }
+=======
+>>>>>>> e9f3d9ece8e612539d6c0f67c8992f44afb456c0
 }
