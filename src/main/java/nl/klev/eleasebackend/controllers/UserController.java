@@ -59,4 +59,24 @@ public class UserController {
         UserDto foundUserDto = userService.getUserById(id);
         return ResponseEntity.ok().body(foundUserDto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUserById(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/names/{name}")
+    public ResponseEntity updateUser(@PathVariable("name") String username,@Valid @RequestBody UserInputDto userInputDto){
+        userService.updateUserInformation(username,userInputDto);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @DeleteMapping("/names/{name}")
+    public ResponseEntity deleteUserByName(@PathVariable("name") String name) {
+       userService.deleteUserByName(name);
+        return ResponseEntity.noContent().build();
+    }
+
 }

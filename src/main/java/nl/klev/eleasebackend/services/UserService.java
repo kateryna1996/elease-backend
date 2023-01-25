@@ -73,6 +73,40 @@ public class UserService {
         return userDto;
     }
 
+//    ?partial fields change
+    public void updateUserInformation(String username, UserInputDto newUserDto){
+        User foundUser = userRepository.findByUsername(username);
+        if(foundUser == null) {
+            throw new UserNotFoundException(username);
+        } else {
+            User updatedUser = UserTransform.toUser(newUserDto);
+            updatedUser.setId(foundUser.getId());
+            foundUser = updatedUser;
+            userRepository.save(foundUser);
+        }
+    }
+//    public void updateUserInformation(String username, UserDto newUserDto){
+//        User foundUser = userRepository.findByUsername(username);
+//        if(foundUser == null) {
+//            throw new UserNotFoundException(username);
+//        } else {
+//            User updatedUser = UserTransform.toUser(newUserDto);
+//            updatedUser.setId(foundUser.getId());
+//            foundUser = updatedUser;
+//            userRepository.save(foundUser);
+//        }
+//    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public void deleteUserByName(String name) {
+        User foundUser = userRepository.findByUsername(name);
+        userRepository.delete(foundUser);
+    }
+
+//********************** Extra  **************************
     public boolean userExists(String email) {
         Optional<User> foundUser = Optional.ofNullable(userRepository.findByEmail(email));
         return foundUser.isPresent();
