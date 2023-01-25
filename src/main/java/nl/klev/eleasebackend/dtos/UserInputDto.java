@@ -19,10 +19,6 @@ public class UserInputDto {
 //    @Size(min = 10, max = 10, message = "Driving license number is 10 characters long, please check it again")
     private int drivingLicenseNumber;
 
-    @Size(min = 2, max = 20, message = "Your name cannot be shorter that 2 letters and longer than 20 characters")
-    private String firstName;
-    @NotNull(message = "The last name is required")
-    private String lastName;
 
     public UserInputDto() {
     }
