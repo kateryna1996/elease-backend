@@ -35,7 +35,7 @@ public class UserController {
 
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/" + userDto.getId()).toUriString());
 
-            return ResponseEntity.created(uri).body(userDto);
+            return ResponseEntity.created(uri).body("The user with the id " + userDto.getId() + " is successfully created! You can proceed to your account " + uri + " .");
         }
     }
 
@@ -45,5 +45,18 @@ public class UserController {
         List<UserDto> userDtos = userService.getUsers();
 
         return ResponseEntity.ok().body(userDtos);
+    }
+
+    @GetMapping("/names/{name}")
+    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable("name") String name) {
+        List<UserDto> foundUsersDto = userService.getUsersByName(name);
+
+        return ResponseEntity.ok().body(foundUsersDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id){
+        UserDto foundUserDto = userService.getUserById(id);
+        return ResponseEntity.ok().body(foundUserDto);
     }
 }
