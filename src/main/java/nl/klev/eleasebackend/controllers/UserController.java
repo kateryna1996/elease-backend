@@ -3,6 +3,7 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.UserDto;
 import nl.klev.eleasebackend.dtos.UserInputDto;
+import nl.klev.eleasebackend.exceptions.BadRequestException;
 import nl.klev.eleasebackend.services.UserService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -39,17 +42,31 @@ public class UserController {
         }
     }
 
-
+//adding filter?
     @GetMapping("")
-    public ResponseEntity<List<UserDto>> getUsers() {
-        List<UserDto> userDtos = userService.getUsers();
+    public ResponseEntity<Object> getUsers(@RequestParam Map<String, String> params) {
+       List<UserDto> response = new ArrayList<>();
 
-        return ResponseEntity.ok().body(userDtos);
+        if(params.isEmpty()) {
+            List<UserDto> userDtos = userService.getUsers();
+
+            response = userDtos;
+        }
+        if(params.size() > 1) {
+            throw new BadRequestException("Only one request parameter at a time is allowed! ");
+        }
+        if(params.containsKey("username")){
+            String stringValue = params.get("username");
+           UserDto foundUsersDto = userService.getUserByUsername(stringValue);
+
+            response.add(foundUsersDto);
+        }
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/names/{name}")
     public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable("name") String name) {
-        List<UserDto> foundUsersDto = userService.getUsersByName(name);
+        List<UserDto> foundUsersDto = userService.getUsersByUsername(name);
 
         return ResponseEntity.ok().body(foundUsersDto);
     }
@@ -66,14 +83,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/names/{name}")
+    @PutMapping("/{name}")
     public ResponseEntity updateUser(@PathVariable("name") String username,@Valid @RequestBody UserInputDto userInputDto){
         userService.updateUserInformation(username,userInputDto);
         return ResponseEntity.noContent().build();
     }
 
 
-    @DeleteMapping("/names/{name}")
+    @DeleteMapping("/{name}")
     public ResponseEntity deleteUserByName(@PathVariable("name") String name) {
        userService.deleteUserByName(name);
         return ResponseEntity.noContent().build();

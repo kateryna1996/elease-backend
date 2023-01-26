@@ -30,11 +30,12 @@ public class UserService {
         if(userExists(createdUser.getEmail())) {
             throw new RecordNotFoundException("The user with this email already exists. You may have only one account!");
         } else {
+
+//            to see the result , need to delete later
             userRepository.save(createdUser);
             createdUserDto = UserTransform.toUserDto(createdUser);
             return createdUserDto;
         }
-
     }
 
     public List<UserDto> getUsers() {
@@ -49,7 +50,18 @@ public class UserService {
         return userDtosList;
     }
 
-    public List<UserDto> getUsersByName(String name) {
+    public UserDto getUserByUsername(String name) {
+        UserDto dto = new UserDto();
+       User user = userRepository.findByUsername(name);
+        if (user == null ) {
+            throw new UserNotFoundException(name);
+        } else {
+                UserTransform.toUserDto(user);
+        }
+        return dto;
+    }
+
+    public List<UserDto> getUsersByUsername(String name) {
         List<UserDto> dto = new ArrayList<>();
         List<User> users = userRepository.findAllByUsernameContaining(name);
         if (users.isEmpty()) {
@@ -85,17 +97,6 @@ public class UserService {
             userRepository.save(foundUser);
         }
     }
-//    public void updateUserInformation(String username, UserDto newUserDto){
-//        User foundUser = userRepository.findByUsername(username);
-//        if(foundUser == null) {
-//            throw new UserNotFoundException(username);
-//        } else {
-//            User updatedUser = UserTransform.toUser(newUserDto);
-//            updatedUser.setId(foundUser.getId());
-//            foundUser = updatedUser;
-//            userRepository.save(foundUser);
-//        }
-//    }
 
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
