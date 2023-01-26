@@ -1,10 +1,9 @@
 package nl.klev.eleasebackend.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -18,14 +17,11 @@ public class User {
     private String password;
     private String username;
 
-    public User() {
-    }
+    @OneToOne
+    @JsonIgnore
+    private Account account;
 
-    public User(Long id, String email, String password, String username) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.username = username;
+    public User() {
     }
 
     public Long getId() {
@@ -44,6 +40,10 @@ public class User {
         return username;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,5 +58,9 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

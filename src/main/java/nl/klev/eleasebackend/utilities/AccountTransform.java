@@ -19,12 +19,12 @@ public class AccountTransform {
 
     public static AccountDto toAccountDto(Account account) {
         var accountDto = new AccountDto();
-
         accountDto.setAccountId(account.getAccountId());
         accountDto.setFullName(account.getFullName());
         accountDto.setDob(account.getDob());
         accountDto.setIban(account.getIban());
         accountDto.setDrivingLicenseNumber(account.getDrivingLicenseNumber());
+        accountDto.setUser(account.getUser());
 
         return accountDto;
     }

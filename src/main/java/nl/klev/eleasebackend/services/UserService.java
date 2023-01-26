@@ -6,6 +6,7 @@ import nl.klev.eleasebackend.dtos.UserInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.User;
+import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.utilities.UserTransform;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,18 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AccountRepository accountRepository) {
         this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
     }
 
 
     public UserDto createUser(UserInputDto userInputDto) {
         UserDto createdUserDto = new UserDto();
         User createdUser = UserTransform.toUser(userInputDto);
-        if(userExists(createdUser.getEmail())) {
+        if (userExists(createdUser.getEmail())) {
             throw new RecordNotFoundException("The user with this email already exists. You may have only one account!");
         } else {
 
@@ -52,20 +55,16 @@ public class UserService {
 
     public UserDto getUserByUsername(String name) {
         UserDto dto = new UserDto();
-       User user = userRepository.findByUsername(name);
-        if (user == null ) {
-            throw new UserNotFoundException(name);
-        } else {
-                UserTransform.toUserDto(user);
-        }
+        User user = userRepository.findByUsername(name);
+        dto = UserTransform.toUserDto(user);
         return dto;
     }
 
-    public List<UserDto> getUsersByUsername(String name) {
+    public List<UserDto> getUsersByUsernameIncludingString(String string) {
         List<UserDto> dto = new ArrayList<>();
-        List<User> users = userRepository.findAllByUsernameContaining(name);
+        List<User> users = userRepository.findAllByUsernameContaining(string);
         if (users.isEmpty()) {
-            throw new UserNotFoundException(name);
+            throw new UserNotFoundException(string);
         } else {
             for (User u : users) {
                 dto.add(UserTransform.toUserDto(u));
@@ -77,18 +76,18 @@ public class UserService {
     public UserDto getUserById(Long id) {
         UserDto userDto = new UserDto();
         Optional<User> foundUser = userRepository.findById(id);
-        if(foundUser.isPresent()){
+        if (foundUser.isPresent()) {
             userDto = UserTransform.toUserDto(foundUser.get());
         } else {
-            throw new RecordNotFoundException("The account with the id " + id + " cannot be found!");
+            throw new RecordNotFoundException("The user with the id " + id + " cannot be found!");
         }
         return userDto;
     }
 
-//    ?partial fields change
-    public void updateUserInformation(String username, UserInputDto newUserDto){
+    //    ?partial fields change
+    public void updateUserInformation(String username, UserInputDto newUserDto) {
         User foundUser = userRepository.findByUsername(username);
-        if(foundUser == null) {
+        if (foundUser == null) {
             throw new UserNotFoundException(username);
         } else {
             User updatedUser = UserTransform.toUser(newUserDto);
@@ -107,7 +106,22 @@ public class UserService {
         userRepository.delete(foundUser);
     }
 
-//********************** Extra  **************************
+    public void assignAccountToUser(Long id, Long accountId) {
+        var account = accountRepository.findById(accountId);
+        var user = userRepository.findById(id);
+
+        if(account.isPresent() && user.isPresent()) {
+            var foundAccount = account.get();
+            var foundUser = user.get();
+
+            foundUser.setAccount(foundAccount);
+            userRepository.save(foundUser);
+        } else {
+            throw new RecordNotFoundException("Something went wrong!");
+        }
+    }
+
+    //********************** Extra  **************************
     public boolean userExists(String email) {
         Optional<User> foundUser = Optional.ofNullable(userRepository.findByEmail(email));
         return foundUser.isPresent();

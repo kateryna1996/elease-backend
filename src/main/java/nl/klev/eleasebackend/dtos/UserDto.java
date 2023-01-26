@@ -1,5 +1,8 @@
 package nl.klev.eleasebackend.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import nl.klev.eleasebackend.models.Account;
+
 public class UserDto {
     private Long id;
     private String email;
@@ -7,13 +10,6 @@ public class UserDto {
     private String username;
 
     public UserDto() {
-    }
-
-    public UserDto(Long id, String email, String password, String username) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.username = username;
     }
 
     public Long getId() {
@@ -47,4 +43,5 @@ public class UserDto {
     public void setUsername(String username) {
         this.username = username;
     }
+
 }

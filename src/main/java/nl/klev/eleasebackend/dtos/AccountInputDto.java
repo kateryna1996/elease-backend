@@ -20,13 +20,6 @@ public class AccountInputDto {
     public AccountInputDto() {
     }
 
-    public AccountInputDto(String fullName, LocalDate dob, String iban, int drivingLicenseNumber) {
-        this.fullName = fullName;
-        this.dob = dob;
-        this.iban = iban;
-        this.drivingLicenseNumber = drivingLicenseNumber;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -58,4 +51,5 @@ public class AccountInputDto {
     public void setDrivingLicenseNumber(int drivingLicenseNumber) {
         this.drivingLicenseNumber = drivingLicenseNumber;
     }
+
 }

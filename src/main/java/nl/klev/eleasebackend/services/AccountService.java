@@ -36,7 +36,7 @@ public class AccountService {
             return accountDto;
         }
     }
-
+    //adding filters?
     public List<AccountDto> getAllAccounts() {
         List<AccountDto> accountDtoList = new ArrayList<>();
 
@@ -61,15 +61,49 @@ public class AccountService {
         return foundAccountDto;
     }
 
-    public String deleteAccountByName(String name) {
+    public AccountDto getAccountById(Long accountId) {
+        AccountDto accountDto = new AccountDto();
+        Optional<Account> foundAccount = accountRepository.findById(accountId);
+        if(foundAccount.isPresent()){
+            accountDto = AccountTransform.toAccountDto(foundAccount.get());
+        } else {
+            throw new RecordNotFoundException("The account with the id " + accountId + " cannot be found!");
+        }
+        return accountDto;
+    }
+
+    public AccountDto updateAccountInformation(Long accountId, AccountInputDto accountInputDto) {
+        Optional<Account> account = accountRepository.findById(accountId);
+
+        if(account.isPresent()) {
+            Account newAccount = account.get();
+            Account accountToSet = AccountTransform.toAccount(accountInputDto);
+            accountToSet.setAccountId(newAccount.getAccountId());
+            Account returningAccount = accountRepository.save(accountToSet);
+            return AccountTransform.toAccountDto(accountToSet);
+        } else {
+            throw new RecordNotFoundException("The account was not found!");
+        }
+    }
+
+    public void deleteAccountByName(String name) {
         Account foundAccount = accountRepository.findAccountByFullName(name);
         accountRepository.delete(foundAccount);
+    }
 
-        return "Account of " + name + " is deleted";
+    public void deleteAccountById(Long accountId) {
+        if(accountRepository.existsById(accountId)) {
+            accountRepository.deleteById(accountId);
+        } else if (accountId < 0){
+            throw new RecordNotFoundException("The id cannot be negative, choose again");
+        } else {
+            throw new RecordNotFoundException("The account with this id does not exist!");
+        }
     }
 
     public boolean accountWithDrivingLicenseExists(int drivingLicense) {
         Optional<Account> foundAccount = Optional.ofNullable(accountRepository.findAccountByDrivingLicenseNumber(drivingLicense));
         return foundAccount.isPresent();
     }
+
 }

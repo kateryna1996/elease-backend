@@ -7,7 +7,8 @@ VALUES ( 4,  'novi@gmail.com', 'joejoe', 'joe'),
 
 INSERT INTO accounts (account_id, full_name, dob, iban, driving_license_number )
 VALUES ( 8, 'Joe Doe','1990-08-07', 'NLINGB928374748', '63930487'),
-       ( 24, 'Mike Anderson', '1968-10-01','NLINGB857205673', '025648392'),
-       ( 27, 'Jim Curry', '1990-09-30', 'NLINGB035295433', '85613284'),
-       (33,  'Angelina Cole', '1988-01-10','NLINGB035582549', '92650265'),
-       ( 101,  'Adgar Poe','2000-12-12','NLINGB265419045', '12932018');
+       ( 10, 'Mike Anderson', '1968-10-01','NLINGB857205673', '025648392'),
+       ( 104, 'Jim Curry', '1990-09-30', 'NLINGB035295433', '85613284'),
+       (43,  'Angelina Cole', '1988-01-10','NLINGB035582549', '92650265'),
+       ( 51,  'Adgar Poe','2000-12-12','NLINGB265419045', '12932018');
+

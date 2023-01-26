@@ -1,9 +1,9 @@
 package nl.klev.eleasebackend.controllers;
 
 
+import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.dtos.UserDto;
 import nl.klev.eleasebackend.dtos.UserInputDto;
-import nl.klev.eleasebackend.exceptions.BadRequestException;
 import nl.klev.eleasebackend.services.UserService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -44,29 +43,20 @@ public class UserController {
 
 //adding filter?
     @GetMapping("")
-    public ResponseEntity<Object> getUsers(@RequestParam Map<String, String> params) {
-       List<UserDto> response = new ArrayList<>();
-
-        if(params.isEmpty()) {
-            List<UserDto> userDtos = userService.getUsers();
-
-            response = userDtos;
+    public ResponseEntity<Object> getUsers(@RequestParam (value = "username", required = false) Optional <String> username) {
+        if(username.isEmpty()) {
+             List<UserDto> userDtos = userService.getUsers();
+            return ResponseEntity.ok().body(userDtos);
+        } else {
+            String name = username.get();
+            UserDto foundUserDto = userService.getUserByUsername(name);
+            return ResponseEntity.ok().body(foundUserDto);
         }
-        if(params.size() > 1) {
-            throw new BadRequestException("Only one request parameter at a time is allowed! ");
-        }
-        if(params.containsKey("username")){
-            String stringValue = params.get("username");
-           UserDto foundUsersDto = userService.getUserByUsername(stringValue);
-
-            response.add(foundUsersDto);
-        }
-        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/names/{name}")
-    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable("name") String name) {
-        List<UserDto> foundUsersDto = userService.getUsersByUsername(name);
+    public ResponseEntity<List<UserDto>> getUsersByNameContainingString(@PathVariable("name") String name) {
+        List<UserDto> foundUsersDto = userService.getUsersByUsernameIncludingString(name);
 
         return ResponseEntity.ok().body(foundUsersDto);
     }
@@ -84,13 +74,21 @@ public class UserController {
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity updateUser(@PathVariable("name") String username,@Valid @RequestBody UserInputDto userInputDto){
-        userService.updateUserInformation(username,userInputDto);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity updateUser(@PathVariable("name") String username,@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
+        } else {
+            userService.updateUserInformation(username, userInputDto);
+            return ResponseEntity.noContent().build();
+        }
     }
 
+    @PutMapping("/{id}/account")
+    public void assignAccountToUser(@PathVariable("id") Long id, @RequestBody IdInputDto accountId){
+        userService.assignAccountToUser(id,accountId.id);
+    }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping("/names/{name}")
     public ResponseEntity deleteUserByName(@PathVariable("name") String name) {
        userService.deleteUserByName(name);
         return ResponseEntity.noContent().build();

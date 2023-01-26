@@ -1,5 +1,7 @@
 package nl.klev.eleasebackend.dtos;
 
+import nl.klev.eleasebackend.models.User;
+
 import java.time.LocalDate;
 
 public class AccountDto {
@@ -10,15 +12,9 @@ public class AccountDto {
     private String iban;
     private int drivingLicenseNumber;
 
-    public AccountDto() {
-    }
+    private User user;
 
-    public AccountDto(Long accountId, String fullName, LocalDate dob, String iban, int drivingLicenseNumber) {
-        this.accountId = accountId;
-        this.fullName = fullName;
-        this.dob = dob;
-        this.iban = iban;
-        this.drivingLicenseNumber = drivingLicenseNumber;
+    public AccountDto() {
     }
 
     public Long getAccountId() {
@@ -41,6 +37,10 @@ public class AccountDto {
         return drivingLicenseNumber;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
@@ -59,5 +59,9 @@ public class AccountDto {
 
     public void setDrivingLicenseNumber(int drivingLicenseNumber) {
         this.drivingLicenseNumber = drivingLicenseNumber;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

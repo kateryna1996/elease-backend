@@ -1,9 +1,7 @@
 package nl.klev.eleasebackend.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -18,15 +16,11 @@ public class Account {
     private String iban;
     private int drivingLicenseNumber;
 
-    public Account() {
-    }
+    @OneToOne(mappedBy = "account")
+    @JoinColumn(name = "account_id")
+    private User user;
 
-    public Account(Long accountId, String fullName, LocalDate dob, String iban, int drivingLicenseNumber) {
-        this.accountId = accountId;
-        this.fullName = fullName;
-        this.dob = dob;
-        this.iban = iban;
-        this.drivingLicenseNumber = drivingLicenseNumber;
+    public Account() {
     }
 
     public Long getAccountId() {
@@ -49,6 +43,10 @@ public class Account {
         return drivingLicenseNumber;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
@@ -67,5 +65,9 @@ public class Account {
 
     public void setDrivingLicenseNumber(int drivingLicenseNumber) {
         this.drivingLicenseNumber = drivingLicenseNumber;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

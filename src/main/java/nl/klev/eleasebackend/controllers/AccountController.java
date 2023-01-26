@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/accounts")
@@ -37,23 +38,45 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<AccountDto>> getAllAccounts() {
-        List<AccountDto> accountDtoList = accountService.getAllAccounts();
+    public ResponseEntity<Object> getAllAccounts(@RequestParam(value = "fullname", required = false)Optional <String> fullname) {
+        if (fullname.isEmpty()) {
+            List<AccountDto> accountDtoList = accountService.getAllAccounts();
 
-        return ResponseEntity.ok().body(accountDtoList);
+            return ResponseEntity.ok().body(accountDtoList);
+        } else {
+            AccountDto foundAccount = accountService.getAccountByName(fullname.get());
+
+            return ResponseEntity.ok().body(foundAccount);
+        }
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<AccountDto> getAccountByName(@PathVariable("name") String name) {
-        AccountDto foundAccount = accountService.getAccountByName(name);
+    @GetMapping("/{accountId}")
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") Long accountId){
+        AccountDto foundAccountDto = accountService.getAccountById(accountId);
+        return ResponseEntity.ok().body(foundAccountDto);
+    }
 
-        return ResponseEntity.ok().body(foundAccount);
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateAccountDetails(@PathVariable Long id, @Valid @RequestBody AccountInputDto accountInputDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
+        } else {
+            AccountDto accountDto = accountService.updateAccountInformation(id, accountInputDto);
+
+            return ResponseEntity.ok().body(accountDto);
+        }
     }
 
 
     @DeleteMapping("/{name}")
-    public ResponseEntity deleteAccountByUserName(@PathVariable("name") String name) {
+    public ResponseEntity <Object> deleteAccountByUserName(@PathVariable("name") String name) {
         accountService.deleteAccountByName(name);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/deleteById/{accountId}")
+    public ResponseEntity<Object> deleteAccountById(@PathVariable Long accountId) {
+        accountService.deleteAccountById(accountId);
         return ResponseEntity.noContent().build();
     }
 }
