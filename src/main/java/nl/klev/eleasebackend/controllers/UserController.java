@@ -6,7 +6,6 @@ import nl.klev.eleasebackend.dtos.UserDto;
 import nl.klev.eleasebackend.dtos.UserInputDto;
 import nl.klev.eleasebackend.services.UserService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -79,7 +77,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             userService.updateUserInformation(username, userInputDto);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body("The user is updated!");
         }
     }
 
