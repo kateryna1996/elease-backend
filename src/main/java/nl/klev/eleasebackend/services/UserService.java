@@ -19,13 +19,10 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final AccountRepository accountRepository;
 
-    public UserService(UserRepository userRepository, AccountRepository accountRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.accountRepository = accountRepository;
     }
-
 
     public UserDto createUser(UserInputDto userInputDto) {
         UserDto createdUserDto = new UserDto();
@@ -104,21 +101,6 @@ public class UserService {
     public void deleteUserByName(String name) {
         User foundUser = userRepository.findByUsername(name);
         userRepository.delete(foundUser);
-    }
-
-    public void assignAccountToUser(Long id, Long accountId) {
-        var account = accountRepository.findById(accountId);
-        var user = userRepository.findById(id);
-
-        if(account.isPresent() && user.isPresent()) {
-            var foundAccount = account.get();
-            var foundUser = user.get();
-
-            foundUser.setAccount(foundAccount);
-            userRepository.save(foundUser);
-        } else {
-            throw new RecordNotFoundException("Something went wrong!");
-        }
     }
 
     //********************** Extra  **************************

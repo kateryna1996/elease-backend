@@ -16,7 +16,7 @@ INSERT INTO membership (membership_id, costs, membership_start_date, membership_
 VALUES ( 7, 59.99 ,'2023-07-05', '2023-08-05','one month membership', 'one month' ),
        ( 9, 12.99, '2023-02-25', '2023-02-26', 'one day membership', 'one day'),
        ( 13, 12.99,'2023-10-15','2023-10-16', 'one day membership', 'one day' ),
-       ( 44, 359.99, '2023-03-01','2024-03-01', 'one year membership', 'one year'),
+       ( 44, 559.99, '2023-03-01','2024-03-01', 'one year membership', 'one year'),
        ( 103, 59.99, '2023-07-05', '2023-08-05','one month membership', 'one month');
 
 

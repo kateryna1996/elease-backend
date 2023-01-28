@@ -5,6 +5,7 @@ import nl.klev.eleasebackend.dtos.MembershipDto;
 import nl.klev.eleasebackend.dtos.MembershipInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.models.Membership;
+import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.MembershipRepository;
 import nl.klev.eleasebackend.utilities.MembershipTransform;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class MembershipService {
 
     private final MembershipRepository membershipRepository;
+
 
     public MembershipService(MembershipRepository membershipRepository) {
         this.membershipRepository = membershipRepository;

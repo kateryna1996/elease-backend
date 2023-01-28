@@ -1,5 +1,6 @@
 package nl.klev.eleasebackend.dtos;
 
+import nl.klev.eleasebackend.models.Membership;
 import nl.klev.eleasebackend.models.User;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class AccountDto {
     private int drivingLicenseNumber;
 
     private User user;
+    private Membership membership;
 
     public AccountDto() {
     }
@@ -41,6 +43,10 @@ public class AccountDto {
         return user;
     }
 
+    public Membership getMembership() {
+        return membership;
+    }
+
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
@@ -63,5 +69,9 @@ public class AccountDto {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setMembership(Membership membership) {
+        this.membership = membership;
     }
 }

@@ -6,6 +6,8 @@ import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.Account;
 import nl.klev.eleasebackend.repositories.AccountRepository;
+import nl.klev.eleasebackend.repositories.MembershipRepository;
+import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.utilities.AccountTransform;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,13 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    private final MembershipRepository membershipRepository;
+    private final UserRepository userRepository;
+
+    public AccountService(AccountRepository accountRepository, MembershipRepository membershipRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
+        this.membershipRepository = membershipRepository;
+        this.userRepository = userRepository;
     }
 
     public AccountDto createAccount(AccountInputDto accountInputDto) {
@@ -36,6 +43,7 @@ public class AccountService {
             return accountDto;
         }
     }
+
     //adding filters?
     public List<AccountDto> getAllAccounts() {
         List<AccountDto> accountDtoList = new ArrayList<>();
@@ -53,8 +61,8 @@ public class AccountService {
     public AccountDto getAccountByName(String name) {
         AccountDto foundAccountDto = new AccountDto();
         Account foundAccount = accountRepository.findAccountByFullName(name);
-        if(foundAccount == null) {
-            throw  new UserNotFoundException(name);
+        if (foundAccount == null) {
+            throw new UserNotFoundException(name);
         } else {
             foundAccountDto = AccountTransform.toAccountDto(foundAccount);
         }
@@ -64,7 +72,7 @@ public class AccountService {
     public AccountDto getAccountById(Long accountId) {
         AccountDto accountDto = new AccountDto();
         Optional<Account> foundAccount = accountRepository.findById(accountId);
-        if(foundAccount.isPresent()){
+        if (foundAccount.isPresent()) {
             accountDto = AccountTransform.toAccountDto(foundAccount.get());
         } else {
             throw new RecordNotFoundException("The account with the id " + accountId + " cannot be found!");
@@ -75,7 +83,7 @@ public class AccountService {
     public AccountDto updateAccountInformation(Long accountId, AccountInputDto accountInputDto) {
         Optional<Account> account = accountRepository.findById(accountId);
 
-        if(account.isPresent()) {
+        if (account.isPresent()) {
             Account newAccount = account.get();
             Account accountToSet = AccountTransform.toAccount(accountInputDto);
             accountToSet.setAccountId(newAccount.getAccountId());
@@ -92,14 +100,48 @@ public class AccountService {
     }
 
     public void deleteAccountById(Long accountId) {
-        if(accountRepository.existsById(accountId)) {
+        if (accountRepository.existsById(accountId)) {
             accountRepository.deleteById(accountId);
-        } else if (accountId < 0){
+        } else if (accountId < 0) {
             throw new RecordNotFoundException("The id cannot be negative, choose again");
         } else {
             throw new RecordNotFoundException("The account with this id does not exist!");
         }
     }
+
+    public void assignMembershipToAccount(Long accountId, Long membershipId) {
+        var account = accountRepository.findById(accountId);
+        var membership = membershipRepository.findById(membershipId);
+
+        if (membership.isPresent() && account.isPresent()) {
+
+            var foundAccount = account.get();
+            var foundMembership = membership.get();
+
+            foundAccount.setMembership(foundMembership
+            );
+            accountRepository.save(foundAccount);
+        } else {
+            throw new RecordNotFoundException("Something went wrong !");
+        }
+    }
+
+
+    public void assignUserToAccount(Long accountId, Long membershipId) {
+        var account = accountRepository.findById(accountId);
+        var user = userRepository.findById(membershipId);
+
+        if (account.isPresent() && user.isPresent()) {
+            var foundAccount = account.get();
+            var foundUser = user.get();
+
+            foundAccount.setUser(foundUser);
+            accountRepository.save(foundAccount);
+        } else {
+            throw new RecordNotFoundException("Something went wrong!");
+        }
+    }
+
 
     public boolean accountWithDrivingLicenseExists(int drivingLicense) {
         Optional<Account> foundAccount = Optional.ofNullable(accountRepository.findAccountByDrivingLicenseNumber(drivingLicense));

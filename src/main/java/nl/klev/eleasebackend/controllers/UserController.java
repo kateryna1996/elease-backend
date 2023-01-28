@@ -1,7 +1,6 @@
 package nl.klev.eleasebackend.controllers;
 
 
-import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.dtos.UserDto;
 import nl.klev.eleasebackend.dtos.UserInputDto;
 import nl.klev.eleasebackend.services.UserService;
@@ -79,11 +78,6 @@ public class UserController {
             userService.updateUserInformation(username, userInputDto);
             return ResponseEntity.ok().body("The user is updated!");
         }
-    }
-
-    @PutMapping("/{id}/account")
-    public void assignAccountToUser(@PathVariable("id") Long id, @RequestBody IdInputDto accountId){
-        userService.assignAccountToUser(id,accountId.id);
     }
 
     @DeleteMapping("/names/{name}")

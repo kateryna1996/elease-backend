@@ -25,6 +25,7 @@ public class AccountTransform {
         accountDto.setIban(account.getIban());
         accountDto.setDrivingLicenseNumber(account.getDrivingLicenseNumber());
         accountDto.setUser(account.getUser());
+        accountDto.setMembership(account.getMembership());
 
         return accountDto;
     }

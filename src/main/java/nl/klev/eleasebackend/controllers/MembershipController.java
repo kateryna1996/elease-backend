@@ -1,5 +1,6 @@
 package nl.klev.eleasebackend.controllers;
 
+import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.dtos.MembershipDto;
 import nl.klev.eleasebackend.dtos.MembershipInputDto;
 import nl.klev.eleasebackend.services.MembershipService;
@@ -68,6 +69,5 @@ public class MembershipController {
         membershipService.deleteMembershipById(id);
         return ResponseEntity.noContent().build();
     }
-
 
 }

@@ -2,6 +2,7 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.AccountDto;
 import nl.klev.eleasebackend.dtos.AccountInputDto;
+import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.services.AccountService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.http.ResponseEntity;
@@ -78,5 +79,16 @@ public class AccountController {
     public ResponseEntity<Object> deleteAccountById(@PathVariable Long accountId) {
         accountService.deleteAccountById(accountId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/membership")
+    public void assignMembershipToAccount(@PathVariable("id") Long accountId, @RequestBody IdInputDto membershipId) {
+        accountService.assignMembershipToAccount(accountId, membershipId.id);
+    }
+
+    @PutMapping("/{id}/user")
+    public ResponseEntity<Object> assignAccountToUser(@PathVariable("id") Long id, @RequestBody IdInputDto accountId){
+        accountService.assignUserToAccount(id,accountId.id);
+        return ResponseEntity.ok().body("Done!");
     }
 }

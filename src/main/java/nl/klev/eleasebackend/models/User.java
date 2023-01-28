@@ -11,13 +11,13 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
     private String username;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     @JsonIgnore
     private Account account;
 

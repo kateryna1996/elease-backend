@@ -1,7 +1,5 @@
 package nl.klev.eleasebackend.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-import nl.klev.eleasebackend.models.Account;
 
 public class UserDto {
     private Long id;

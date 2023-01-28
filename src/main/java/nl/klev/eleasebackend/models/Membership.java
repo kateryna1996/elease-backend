@@ -1,8 +1,8 @@
 package nl.klev.eleasebackend.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -16,6 +16,12 @@ public class Membership {
     private LocalDate membershipStartDate;
     private LocalDate membershipEndDate;
     private double costs;
+
+
+    @OneToOne
+            (mappedBy = "membership")
+    @JsonIgnore
+    private Account account;
 
     public Membership() {
     }
@@ -44,6 +50,10 @@ public class Membership {
         return type;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
     public void setMembershipId(Long id) {
         this.membershipId = id;
     }
@@ -66,5 +76,9 @@ public class Membership {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

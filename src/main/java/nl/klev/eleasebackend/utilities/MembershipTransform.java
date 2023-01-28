@@ -32,7 +32,7 @@ public class MembershipTransform {
                 endDate = startDate.plusMonths(1);
                 break;
             case "one year":
-                costs = 359.99;
+                costs = 559.99;
                 endDate = startDate.plusYears(1);
                 break;
 
