@@ -11,6 +11,7 @@ public class MembershipDto {
     private LocalDate membershipStartDate;
     private LocalDate membershipEndDate;
     private double costs;
+    private boolean parkingIncluded;
 
     public MembershipDto() {
     }
@@ -39,6 +40,10 @@ public class MembershipDto {
         return type;
     }
 
+    public boolean isParkingIncluded() {
+        return parkingIncluded;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -61,5 +66,9 @@ public class MembershipDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setParkingIncluded(boolean parkingIncluded) {
+        this.parkingIncluded = parkingIncluded;
     }
 }

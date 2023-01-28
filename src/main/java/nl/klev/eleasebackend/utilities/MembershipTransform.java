@@ -21,6 +21,7 @@ public class MembershipTransform {
         membership.setType(memType);
         membership.setName(memType + " membership");
         membership.setMembershipStartDate(membershipInputDto.getMembershipStartDate());
+        membership.setParkingIncluded(membershipInputDto.isParkingIncluded());
 
         switch (memType) {
             case "one day":
@@ -40,7 +41,11 @@ public class MembershipTransform {
                 throw new RecordNotFoundException("Please choose one of the offered options: one month, one year or one day membership !");
         }
         membership.setMembershipEndDate(endDate);
-        membership.setCosts(costs);
+        if(membership.isParkingIncluded()) {
+            membership.setCosts(costs * 0.05);
+        } else {
+            membership.setCosts(costs);
+        }
 
         return membership;
     }
@@ -54,6 +59,7 @@ public class MembershipTransform {
         membershipDto.setMembershipStartDate(membership.getMembershipStartDate());
         membershipDto.setMembershipEndDate(membership.getMembershipEndDate());
         membershipDto.setCosts(membership.getCosts());
+        membershipDto.setParkingIncluded(membership.isParkingIncluded());
 
         return membershipDto;
     }

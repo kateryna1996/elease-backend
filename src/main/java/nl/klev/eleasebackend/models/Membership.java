@@ -16,6 +16,7 @@ public class Membership {
     private LocalDate membershipStartDate;
     private LocalDate membershipEndDate;
     private double costs;
+    private boolean parkingIncluded;
 
 
     @OneToOne
@@ -54,6 +55,10 @@ public class Membership {
         return account;
     }
 
+    public boolean isParkingIncluded() {
+        return parkingIncluded;
+    }
+
     public void setMembershipId(Long id) {
         this.membershipId = id;
     }
@@ -80,5 +85,9 @@ public class Membership {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public void setParkingIncluded(boolean parkingIncluded) {
+        this.parkingIncluded = parkingIncluded;
     }
 }

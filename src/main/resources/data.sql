@@ -12,11 +12,11 @@ VALUES ( 8, 'Joe Doe','1990-08-07', 'NLINGB928374748', '63930487'),
        (43,  'Angelina Cole', '1988-01-10','NLINGB035582549', '92650265'),
        ( 51,  'Adgar Poe','2000-12-12','NLINGB265419045', '12932018');
 
-INSERT INTO membership (membership_id, costs, membership_start_date, membership_end_date, name, type)
-VALUES ( 7, 59.99 ,'2023-07-05', '2023-08-05','one month membership', 'one month' ),
-       ( 9, 12.99, '2023-02-25', '2023-02-26', 'one day membership', 'one day'),
-       ( 13, 12.99,'2023-10-15','2023-10-16', 'one day membership', 'one day' ),
-       ( 44, 559.99, '2023-03-01','2024-03-01', 'one year membership', 'one year'),
-       ( 103, 59.99, '2023-07-05', '2023-08-05','one month membership', 'one month');
+INSERT INTO membership (membership_id, costs, membership_start_date, membership_end_date, name, type, parking_included)
+VALUES ( 7, 62.99 ,'2023-07-05', '2023-08-05','one month membership', 'one month', true ),
+       ( 9, 12.99, '2023-02-25', '2023-02-26', 'one day membership', 'one day', false),
+       ( 13, 12.99,'2023-10-15','2023-10-16', 'one day membership', 'one day', false ),
+       ( 44, 587.99, '2023-03-01','2024-03-01', 'one year membership', 'one year', true),
+       ( 103, 59.99, '2023-07-05', '2023-08-05','one month membership', 'one month', false);
 
 
