@@ -9,6 +9,7 @@ import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.MembershipRepository;
 import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.utilities.AccountTransform;
+import nl.klev.eleasebackend.utilities.WriteToFile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,7 +48,6 @@ public class AccountService {
     //adding filters?
     public List<AccountDto> getAllAccounts() {
         List<AccountDto> accountDtoList = new ArrayList<>();
-
         List<Account> accountList = accountRepository.findAll();
         for (Account account : accountList) {
             accountDtoList.add(AccountTransform.toAccountDto(account));
@@ -74,6 +74,7 @@ public class AccountService {
         Optional<Account> foundAccount = accountRepository.findById(accountId);
         if (foundAccount.isPresent()) {
             accountDto = AccountTransform.toAccountDto(foundAccount.get());
+            WriteToFile.toFile(foundAccount.get());
         } else {
             throw new RecordNotFoundException("The account with the id " + accountId + " cannot be found!");
         }

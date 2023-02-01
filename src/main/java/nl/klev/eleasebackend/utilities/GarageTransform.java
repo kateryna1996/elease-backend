@@ -2,6 +2,7 @@ package nl.klev.eleasebackend.utilities;
 
 import nl.klev.eleasebackend.dtos.GarageDto;
 import nl.klev.eleasebackend.dtos.GarageInputDto;
+import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.models.Garage;
 
 
@@ -15,6 +16,8 @@ public class GarageTransform {
             case NETHERLANDS:
             case BELGIUM:
                 break;
+            default:
+                throw new RecordNotFoundException("This country is not on the list!");
         }
 
         garage.setGarageName(garageInputDto.getGarageName());

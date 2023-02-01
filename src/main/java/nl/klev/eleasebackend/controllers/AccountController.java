@@ -5,6 +5,7 @@ import nl.klev.eleasebackend.dtos.AccountInputDto;
 import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.services.AccountService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
+import nl.klev.eleasebackend.utilities.WriteToFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

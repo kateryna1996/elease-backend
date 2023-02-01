@@ -2,6 +2,8 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.GarageDto;
 import nl.klev.eleasebackend.dtos.GarageInputDto;
+import nl.klev.eleasebackend.dtos.MembershipDto;
+import nl.klev.eleasebackend.dtos.MembershipInputDto;
 import nl.klev.eleasebackend.services.GarageService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class GarageController {
 
 
     @PostMapping("")
-    public ResponseEntity<Object> createGarage(@Valid @RequestBody GarageInputDto garageInputDto, BindingResult bindingResult){
+    public ResponseEntity<Object> createGarage(@Valid @RequestBody GarageInputDto garageInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
@@ -37,7 +39,7 @@ public class GarageController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<GarageDto>> getGarageList(){
+    public ResponseEntity<List<GarageDto>> getGarageList() {
         List<GarageDto> garageDtoList = garageService.getGarageList();
 
         return ResponseEntity.ok().body(garageDtoList);
@@ -49,4 +51,22 @@ public class GarageController {
 
         return ResponseEntity.ok().body(garageDto);
     }
+
+    @PutMapping("/{name}")
+    public ResponseEntity updateGarage(@PathVariable("name") String name, @Valid @RequestBody GarageInputDto garageInputDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
+        } else {
+            garageService.updateGarage(name, garageInputDto);
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity deleteGarageByName(@PathVariable("name") String name) {
+        garageService.deleteGarageByName(name);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

@@ -5,7 +5,6 @@ import nl.klev.eleasebackend.dtos.MembershipDto;
 import nl.klev.eleasebackend.dtos.MembershipInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.models.Membership;
-import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.MembershipRepository;
 import nl.klev.eleasebackend.utilities.MembershipTransform;
 import org.springframework.stereotype.Service;
@@ -65,17 +64,16 @@ public class MembershipService {
         membershipRepository.deleteById(id);
     }
 
-    public MembershipDto updateMembership(Long id, MembershipInputDto membershipInputDto) {
+    public void updateMembership(Long id, MembershipInputDto membershipInputDto) {
         Optional<Membership> membership = membershipRepository.findById(id);
 
-        if (membership.isEmpty()) {
-            throw new RecordNotFoundException("The membership could not be updates as it was not found");
-        } else {
+        if (membership.isPresent()) {
             Membership updatedMembership = membership.get();
             Membership membershipToSet = MembershipTransform.toMembership(membershipInputDto);
             membershipToSet.setMembershipId(updatedMembership.getMembershipId());
-            Membership membershipToSave = membershipRepository.save(membershipToSet);
-            return MembershipTransform.toMembershipDto(membershipToSave);
+            membershipRepository.save(membershipToSet);
+        } else {
+            throw new RecordNotFoundException("The membership could not be updated as it was not found");
         }
     }
 }

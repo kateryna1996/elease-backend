@@ -1,6 +1,6 @@
 package nl.klev.eleasebackend.controllers;
 
-import nl.klev.eleasebackend.dtos.IdInputDto;
+
 import nl.klev.eleasebackend.dtos.MembershipDto;
 import nl.klev.eleasebackend.dtos.MembershipInputDto;
 import nl.klev.eleasebackend.services.MembershipService;
@@ -55,7 +55,7 @@ public class MembershipController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
-            MembershipDto membershipDto = membershipService.updateMembership(id, membershipInputDto);
+            membershipService.updateMembership(id, membershipInputDto);
             return ResponseEntity.noContent().build();
         }
     }
@@ -69,5 +69,4 @@ public class MembershipController {
         membershipService.deleteMembershipById(id);
         return ResponseEntity.noContent().build();
     }
-
 }

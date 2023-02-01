@@ -2,7 +2,6 @@ package nl.klev.eleasebackend.services;
 
 import nl.klev.eleasebackend.dtos.GarageDto;
 import nl.klev.eleasebackend.dtos.GarageInputDto;
-import nl.klev.eleasebackend.dtos.MembershipDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.models.Garage;
 import nl.klev.eleasebackend.repositories.GarageRepository;
@@ -57,5 +56,22 @@ public class GarageService {
             throw new RecordNotFoundException("The garage with the name " + name + " cannot be found!");
         }
         return garageDto;
+    }
+
+    public void deleteGarageByName(String name) {
+        garageRepository.deleteById(name);
+    }
+
+    public void updateGarage(String name, GarageInputDto garageInputDto) {
+        Optional<Garage> garage = garageRepository.findById(name);
+
+        if(garage.isPresent()){
+            Garage updatedGarage = garage.get();
+            Garage garageToSet = GarageTransform.toGarage(garageInputDto);
+            garageToSet.setGarageName(updatedGarage.getGarageName());
+            garageRepository.save(garageToSet);
+        } else {
+            throw new RecordNotFoundException("The garage was not found");
+        }
     }
 }
