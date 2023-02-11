@@ -1,11 +1,12 @@
 package nl.klev.eleasebackend.models;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "garages")
 public class Garage {
 
     @Id
@@ -14,7 +15,13 @@ public class Garage {
     private Country country;
     private String zipCode;
 
-    public Garage() {
+    @OneToMany(mappedBy = "garage")
+    @JsonIgnore
+    private List<Vehicle> vehicles;
+
+    public enum Country {
+        NETHERLANDS,
+        BELGIUM;
     }
 
     public String getGarageName() {
@@ -29,6 +36,10 @@ public class Garage {
         return zipCode;
     }
 
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
     public void setGarageName(String garageName) {
         this.garageName = garageName;
     }
@@ -41,8 +52,8 @@ public class Garage {
         this.zipCode = zipCode;
     }
 
-    public enum Country {
-        NETHERLANDS,
-        BELGIUM;
+    public void setVehicles(List<Vehicle> vehicleList) {
+        this.vehicles = vehicleList;
     }
+
 }

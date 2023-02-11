@@ -7,9 +7,6 @@ public class UserDto {
     private String password;
     private String username;
 
-    public UserDto() {
-    }
-
     public Long getId() {
         return id;
     }

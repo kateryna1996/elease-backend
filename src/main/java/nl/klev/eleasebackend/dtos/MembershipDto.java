@@ -13,9 +13,6 @@ public class MembershipDto {
     private double costs;
     private boolean parkingIncluded;
 
-    public MembershipDto() {
-    }
-
     public Long getId() {
         return id;
     }

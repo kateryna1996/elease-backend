@@ -2,8 +2,6 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.GarageDto;
 import nl.klev.eleasebackend.dtos.GarageInputDto;
-import nl.klev.eleasebackend.dtos.MembershipDto;
-import nl.klev.eleasebackend.dtos.MembershipInputDto;
 import nl.klev.eleasebackend.services.GarageService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +65,5 @@ public class GarageController {
         garageService.deleteGarageByName(name);
         return ResponseEntity.noContent().build();
     }
-
 
 }

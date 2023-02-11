@@ -13,9 +13,6 @@ public class UserInputDto {
     @NotNull
     private String username;
 
-    public UserInputDto() {
-    }
-
     public String getEmail() {
         return email;
     }

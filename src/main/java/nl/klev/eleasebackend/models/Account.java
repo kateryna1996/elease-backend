@@ -1,9 +1,5 @@
 package nl.klev.eleasebackend.models;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -26,6 +22,10 @@ public class Account {
     @OneToOne
     @JoinColumn(name = "membership_id")
     private Membership membership;
+
+    @OneToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
     public Account() {
     }
@@ -58,6 +58,10 @@ public class Account {
         return membership;
     }
 
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
@@ -84,5 +88,9 @@ public class Account {
 
     public void setMembership(Membership membership) {
         this.membership = membership;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

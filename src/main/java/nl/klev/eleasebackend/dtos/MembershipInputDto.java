@@ -17,9 +17,6 @@ public class MembershipInputDto {
     @NotNull
     private boolean parkingIncluded;
 
-    public MembershipInputDto() {
-    }
-
     public String getType() {
         return type;
     }

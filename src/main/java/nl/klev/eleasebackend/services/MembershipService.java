@@ -25,7 +25,6 @@ public class MembershipService {
 
     public MembershipDto createMembership(MembershipInputDto inputDto) {
         MembershipDto createdMembershipDto = new MembershipDto();
-
         Membership createdMembership = MembershipTransform.toMembership(inputDto);
 
         membershipRepository.save(createdMembership);
@@ -40,7 +39,6 @@ public class MembershipService {
         for (Membership m : membershipList) {
             membershipDtoList.add(MembershipTransform.toMembershipDto(m));
         }
-
         if (membershipList.isEmpty()) {
             throw new RecordNotFoundException("The list is empty!");
         }
@@ -51,9 +49,9 @@ public class MembershipService {
 
     public MembershipDto getMembershipById(Long id) {
         MembershipDto membershipDto = new MembershipDto();
-        Optional<Membership> foundMembership = membershipRepository.findById(id);
-        if (foundMembership.isPresent()) {
-            membershipDto = MembershipTransform.toMembershipDto(foundMembership.get());
+        if (membershipExists(id)) {
+            Membership foundMembership = membershipRepository.findById(id).get();
+            membershipDto = MembershipTransform.toMembershipDto(foundMembership);
         } else {
             throw new RecordNotFoundException("The membership with the id " + id + " cannot be found!");
         }
@@ -61,19 +59,25 @@ public class MembershipService {
     }
 
     public void deleteMembershipById(Long id) {
-        membershipRepository.deleteById(id);
+        if (membershipExists(id)) {
+            membershipRepository.deleteById(id);
+        } else {
+            throw new RecordNotFoundException("The membership could not be deletrd as it was not found");
+        }
     }
 
     public void updateMembership(Long id, MembershipInputDto membershipInputDto) {
-        Optional<Membership> membership = membershipRepository.findById(id);
-
-        if (membership.isPresent()) {
-            Membership updatedMembership = membership.get();
+        if (membershipExists(id)) {
+            Membership updatedMembership = membershipRepository.findById(id).get();
             Membership membershipToSet = MembershipTransform.toMembership(membershipInputDto);
             membershipToSet.setMembershipId(updatedMembership.getMembershipId());
             membershipRepository.save(membershipToSet);
         } else {
             throw new RecordNotFoundException("The membership could not be updated as it was not found");
         }
+    }
+
+    public boolean membershipExists(Long id) {
+        return  membershipRepository.existsById(id);
     }
 }

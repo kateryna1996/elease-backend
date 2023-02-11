@@ -43,11 +43,9 @@ public class AccountController {
     public ResponseEntity<Object> getAllAccounts(@RequestParam(value = "fullname", required = false)Optional <String> fullname) {
         if (fullname.isEmpty()) {
             List<AccountDto> accountDtoList = accountService.getAllAccounts();
-
             return ResponseEntity.ok().body(accountDtoList);
         } else {
             AccountDto foundAccount = accountService.getAccountByName(fullname.get());
-
             return ResponseEntity.ok().body(foundAccount);
         }
     }
@@ -64,7 +62,6 @@ public class AccountController {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             AccountDto accountDto = accountService.updateAccountInformation(id, accountInputDto);
-
             return ResponseEntity.ok().body(accountDto);
         }
     }
@@ -91,5 +88,10 @@ public class AccountController {
     public ResponseEntity<Object> assignAccountToUser(@PathVariable("id") Long id, @RequestBody IdInputDto accountId){
         accountService.assignUserToAccount(id,accountId.id);
         return ResponseEntity.ok().body("Done!");
+    }
+    @PutMapping("/{id}/vehicle")
+    public ResponseEntity assignVehicleToAccount(@PathVariable("id") Long id, @RequestBody IdInputDto vehicleId) {
+        accountService.assignVehicleToAccount(id,vehicleId.id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -15,9 +15,6 @@ public class GarageInputDto {
     @NotNull
     private String zipCode;
 
-    public GarageInputDto() {
-    }
-
     public String getGarageName() {
         return garageName;
     }

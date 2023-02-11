@@ -8,6 +8,7 @@ import nl.klev.eleasebackend.models.Account;
 import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.MembershipRepository;
 import nl.klev.eleasebackend.repositories.UserRepository;
+import nl.klev.eleasebackend.repositories.VehicleRepository;
 import nl.klev.eleasebackend.utilities.AccountTransform;
 import nl.klev.eleasebackend.utilities.WriteToFile;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,15 @@ import java.util.Optional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-
     private final MembershipRepository membershipRepository;
     private final UserRepository userRepository;
+    private final VehicleRepository vehicleRepository;
 
-    public AccountService(AccountRepository accountRepository, MembershipRepository membershipRepository, UserRepository userRepository) {
+    public AccountService(AccountRepository accountRepository, MembershipRepository membershipRepository, UserRepository userRepository, VehicleRepository vehicleRepository) {
         this.accountRepository = accountRepository;
         this.membershipRepository = membershipRepository;
         this.userRepository = userRepository;
+        this.vehicleRepository = vehicleRepository;
     }
 
     public AccountDto createAccount(AccountInputDto accountInputDto) {
@@ -115,18 +117,20 @@ public class AccountService {
         var membership = membershipRepository.findById(membershipId);
 
         if (membership.isPresent() && account.isPresent()) {
-
             var foundAccount = account.get();
             var foundMembership = membership.get();
 
             foundAccount.setMembership(foundMembership
             );
             accountRepository.save(foundAccount);
+        } else if (membership.isEmpty()) {
+            throw new RecordNotFoundException("Membership with this id has not been found!");
+        } else if (account.isEmpty()) {
+            throw new RecordNotFoundException("Account with this id has not been found!");
         } else {
-            throw new RecordNotFoundException("Something went wrong !");
+            throw new RecordNotFoundException("Something went wrong!");
         }
     }
-
 
     public void assignUserToAccount(Long accountId, Long membershipId) {
         var account = accountRepository.findById(accountId);
@@ -138,15 +142,34 @@ public class AccountService {
 
             foundAccount.setUser(foundUser);
             accountRepository.save(foundAccount);
+        } else if (user.isEmpty()) {
+            throw new RecordNotFoundException("User with the id has not been found!");
+        } else {
+            throw new RecordNotFoundException("Account with this id has not been found!");
+        }
+    }
+
+    public void assignVehicleToAccount(Long accountId, Long vehicleId) {
+        var account = accountRepository.findById(accountId);
+        var vehicle = vehicleRepository.findById(vehicleId);
+
+        if (account.isPresent() && vehicle.isPresent()) {
+            var foundAccount = account.get();
+            var foundVehicle = vehicle.get();
+
+            foundAccount.setVehicle(foundVehicle);
+            accountRepository.save(foundAccount);
+        } else if (vehicle.isEmpty()) {
+            throw new RecordNotFoundException("Vehicle with this id has not been found!");
+        } else if (account.isEmpty()){
+            throw new RecordNotFoundException("Membership with this id has not been found!");
         } else {
             throw new RecordNotFoundException("Something went wrong!");
         }
     }
 
-
     public boolean accountWithDrivingLicenseExists(int drivingLicense) {
         Optional<Account> foundAccount = Optional.ofNullable(accountRepository.findAccountByDrivingLicenseNumber(drivingLicense));
         return foundAccount.isPresent();
     }
-
 }

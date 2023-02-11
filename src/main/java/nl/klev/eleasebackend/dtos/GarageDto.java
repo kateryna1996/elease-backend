@@ -2,14 +2,12 @@ package nl.klev.eleasebackend.dtos;
 
 import nl.klev.eleasebackend.models.Garage;
 
+
 public class GarageDto {
 
     private String garageName;
-    private Garage.Country country ;
+    private Garage.Country country;
     private String zipCode;
-
-    public GarageDto() {
-    }
 
     public String getGarageName() {
         return garageName;

@@ -1,11 +1,8 @@
 package nl.klev.eleasebackend.utilities;
 
 import nl.klev.eleasebackend.models.Account;
-import nl.klev.eleasebackend.repositories.AccountRepository;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 public class WriteToFile {
 

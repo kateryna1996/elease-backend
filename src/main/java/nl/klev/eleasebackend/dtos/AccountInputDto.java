@@ -17,8 +17,6 @@ public class AccountInputDto {
     //    @Size(min = 10, max = 10, message = "Driving license number is 10 characters long, please check it again")
     private int drivingLicenseNumber;
 
-    public AccountInputDto() {
-    }
 
     public String getFullName() {
         return fullName;

@@ -24,11 +24,15 @@ public class GarageService {
     public GarageDto createGarage(GarageInputDto garageInputDto) {
         GarageDto garageDto = new GarageDto();
         Garage createdGarage = GarageTransform.toGarage(garageInputDto);
+        if (garageExists(garageInputDto.getGarageName())) {
+//            adding an exception
+            throw new RecordNotFoundException("The garage with this name already exists!");
+        } else {
+            garageRepository.save(createdGarage);
+            garageDto = GarageTransform.toGarageDto(createdGarage);
 
-        garageRepository.save(createdGarage);
-        garageDto = GarageTransform.toGarageDto(createdGarage);
-
-        return garageDto;
+            return garageDto;
+        }
     }
 
     public List<GarageDto> getGarageList() {
@@ -50,7 +54,7 @@ public class GarageService {
 
         Optional<Garage> foundGarage = garageRepository.findById(name);
 
-        if(foundGarage.isPresent()){
+        if (foundGarage.isPresent()) {
             garageDto = GarageTransform.toGarageDto(foundGarage.get());
         } else {
             throw new RecordNotFoundException("The garage with the name " + name + " cannot be found!");
@@ -65,7 +69,7 @@ public class GarageService {
     public void updateGarage(String name, GarageInputDto garageInputDto) {
         Optional<Garage> garage = garageRepository.findById(name);
 
-        if(garage.isPresent()){
+        if (garage.isPresent()) {
             Garage updatedGarage = garage.get();
             Garage garageToSet = GarageTransform.toGarage(garageInputDto);
             garageToSet.setGarageName(updatedGarage.getGarageName());
@@ -73,5 +77,10 @@ public class GarageService {
         } else {
             throw new RecordNotFoundException("The garage was not found");
         }
+    }
+
+    public boolean garageExists(String name) {
+        Optional<Garage> foundGarage = garageRepository.findById(name);
+        return foundGarage.isPresent();
     }
 }

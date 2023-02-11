@@ -19,6 +19,7 @@ public class AccountTransform {
 
     public static AccountDto toAccountDto(Account account) {
         var accountDto = new AccountDto();
+
         accountDto.setAccountId(account.getAccountId());
         accountDto.setFullName(account.getFullName());
         accountDto.setDob(account.getDob());
@@ -26,6 +27,10 @@ public class AccountTransform {
         accountDto.setDrivingLicenseNumber(account.getDrivingLicenseNumber());
         accountDto.setUser(account.getUser());
         accountDto.setMembership(account.getMembership());
+//        if(account.getVehicle() != null) {
+//            accountDto.setVehicle(account.getVehicle());
+//        }
+        accountDto.setVehicle(account.getVehicle());
 
         return accountDto;
     }

@@ -6,7 +6,6 @@ import nl.klev.eleasebackend.dtos.UserInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.User;
-import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.utilities.UserTransform;
 import org.springframework.stereotype.Service;
@@ -107,7 +106,6 @@ public class UserService {
     public boolean userExists(String email) {
         Optional<User> foundUser = Optional.ofNullable(userRepository.findByEmail(email));
         return foundUser.isPresent();
-
     }
 
 }
