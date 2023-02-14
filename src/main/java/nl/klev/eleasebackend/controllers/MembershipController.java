@@ -50,7 +50,7 @@ public class MembershipController {
         return ResponseEntity.ok().body(membershipDto);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity updateMembershipById(@PathVariable("id") Long id, @Valid @RequestBody MembershipInputDto membershipInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
@@ -59,9 +59,6 @@ public class MembershipController {
             return ResponseEntity.noContent().build();
         }
     }
-
-//    cannot be done with validation
-//    @PatchMapping("/{id}")
 
 
     @DeleteMapping("/{id}")

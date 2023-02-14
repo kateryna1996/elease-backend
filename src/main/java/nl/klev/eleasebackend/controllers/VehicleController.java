@@ -50,7 +50,7 @@ public class VehicleController {
         return ResponseEntity.ok().body(vehicleDto);
     }
 
-    @PostMapping("/{vehicleId}")
+    @PutMapping("/{vehicleId}")
     public ResponseEntity updateVehicle(@PathVariable("vehicleId") Long id, @Valid @RequestBody VehicleInputDto vehicleInputDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));

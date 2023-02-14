@@ -29,7 +29,6 @@ public class UserService {
         if (userExists(createdUser.getEmail())) {
             throw new RecordNotFoundException("The user with this email already exists. You may have only one account!");
         } else {
-
 //            to see the result , need to delete later
             userRepository.save(createdUser);
             createdUserDto = UserTransform.toUserDto(createdUser);

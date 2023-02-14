@@ -36,30 +36,30 @@ public class VehicleService {
     public List<VehicleDto> getVehicles() {
         List<VehicleDto> vehicleDtoList = new ArrayList<>();
         List<Vehicle> vehicleList = vehicleRepository.findAll();
-
-        for (Vehicle v : vehicleList) {
-            vehicleDtoList.add(VehicleTransform.toVehicleDto(v));
-        }
         if (vehicleList.isEmpty()) {
             throw new RecordNotFoundException("The list is empty!");
+        } else {
+            for (Vehicle v : vehicleList) {
+                vehicleDtoList.add(VehicleTransform.toVehicleDto(v));
+            }
         }
         return vehicleDtoList;
     }
 
     public VehicleDto getVehicleById(Long id) {
         VehicleDto vehicleDto = new VehicleDto();
-        if(vehicleExists(id)){
+        if (vehicleExists(id)) {
             Vehicle foundVehicle = vehicleRepository.findById(id).get();
             vehicleDto = VehicleTransform.toVehicleDto(foundVehicle);
 
-        }else {
+        } else {
             throw new RecordNotFoundException("The vehicle with the id " + id + " cannot be found!");
         }
         return vehicleDto;
     }
 
     public void updateVehicle(Long id, VehicleInputDto vehicleInputDto) {
-        if(vehicleExists(id)){
+        if (vehicleExists(id)) {
             Vehicle updatedVehicle = vehicleRepository.findById(id).get();
             Vehicle vehicleToSet = VehicleTransform.toVehicle(vehicleInputDto);
             vehicleToSet.setVehicleId(updatedVehicle.getVehicleId());
@@ -69,27 +69,27 @@ public class VehicleService {
         }
     }
 
-    public void deleteVehicle(Long id){
-        if(vehicleExists(id)) {
+    public void deleteVehicle(Long id) {
+        if (vehicleExists(id)) {
             vehicleRepository.deleteById(id);
         } else {
             throw new RecordNotFoundException("The vehicle with the id " + id + " cannot be found!");
         }
     }
 
-    public boolean vehicleExists(Long id){
-       return vehicleRepository.existsById(id);
+    public boolean vehicleExists(Long id) {
+        return vehicleRepository.existsById(id);
     }
 
     public void assignGarageToVehicles(Long id, String garageId) {
         var foundGarage = garageRepository.findById(garageId);
         var foundVehicle = vehicleRepository.findById(id);
 
-        if(foundGarage.isPresent() && foundGarage.isPresent()){
+        if (foundGarage.isPresent() && foundVehicle.isPresent()) {
             var vehicle = foundVehicle.get();
             vehicle.setGarage(foundGarage.get());
             vehicleRepository.save(vehicle);
-        } else if(foundGarage.isEmpty()) {
+        } else if (foundGarage.isEmpty()) {
             throw new RecordNotFoundException("Garage with the name has not been found!");
         } else {
             throw new RecordNotFoundException("Vehicle with the id has not been found!");

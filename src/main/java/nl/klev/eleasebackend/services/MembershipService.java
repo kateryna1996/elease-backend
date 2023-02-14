@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MembershipService {
@@ -35,7 +34,6 @@ public class MembershipService {
     public List<MembershipDto> getMemberships() {
         List<MembershipDto> membershipDtoList = new ArrayList<>();
         List<Membership> membershipList = membershipRepository.findAll();
-
         for (Membership m : membershipList) {
             membershipDtoList.add(MembershipTransform.toMembershipDto(m));
         }
@@ -44,8 +42,6 @@ public class MembershipService {
         }
         return membershipDtoList;
     }
-//adding active accounts search for admin
-//    public List<MembershipDto> getActive
 
     public MembershipDto getMembershipById(Long id) {
         MembershipDto membershipDto = new MembershipDto();
@@ -62,7 +58,7 @@ public class MembershipService {
         if (membershipExists(id)) {
             membershipRepository.deleteById(id);
         } else {
-            throw new RecordNotFoundException("The membership could not be deletrd as it was not found");
+            throw new RecordNotFoundException("The membership could not be deleted as it was not found");
         }
     }
 

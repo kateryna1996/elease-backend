@@ -6,7 +6,7 @@ import nl.klev.eleasebackend.models.Account;
 
 public class AccountTransform {
 
-    public static Account toAccount(AccountInputDto accountInputDto){
+    public static Account toAccount(AccountInputDto accountInputDto) {
         var account = new Account();
 
         account.setFullName(accountInputDto.getFullName());
@@ -25,13 +25,16 @@ public class AccountTransform {
         accountDto.setDob(account.getDob());
         accountDto.setIban(account.getIban());
         accountDto.setDrivingLicenseNumber(account.getDrivingLicenseNumber());
-        accountDto.setUser(account.getUser());
-        accountDto.setMembership(account.getMembership());
-//        if(account.getVehicle() != null) {
-//            accountDto.setVehicle(account.getVehicle());
-//        }
-        accountDto.setVehicle(account.getVehicle());
 
+        if (account.getUser() != null) {
+            accountDto.setUser(account.getUser());
+        }
+        if (account.getMembership() != null) {
+            accountDto.setMembership(account.getMembership());
+        }
+        if (account.getVehicle() != null) {
+            accountDto.setVehicle(account.getVehicle());
+        }
         return accountDto;
     }
 }

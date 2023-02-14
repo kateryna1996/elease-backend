@@ -13,7 +13,7 @@ public class VehicleDto {
 //    private int quantity;
     private boolean isRented;
     private boolean drivingLicenseRequired;
-    private String licenseNumber;
+//    private String licenseNumber;
     private double distanceRangeWithoutCharge;
     private Garage garage;
 
@@ -53,9 +53,9 @@ public class VehicleDto {
         return distanceRangeWithoutCharge;
     }
 
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
+//    public String getLicenseNumber() {
+//        return licenseNumber;
+//    }
 
     public Garage getGarage() {
         return garage;
@@ -93,9 +93,9 @@ public class VehicleDto {
         this.vehicleId = vehicleId;
     }
 
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
-    }
+//    public void setLicenseNumber(String licenseNumber) {
+//        this.licenseNumber = licenseNumber;
+//    }
 
     public void setGarage(Garage garage) {
         this.garage = garage;

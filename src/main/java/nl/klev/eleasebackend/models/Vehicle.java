@@ -15,8 +15,7 @@ public class Vehicle {
     private VehicleType type;
     private String brand;
     private String model;
-    private static int quantity;
-    private boolean isRented;
+    private boolean isRented = true;
     private boolean drivingLicenseRequired;
     private double distanceRangeWithoutCharge;
 
@@ -48,10 +47,6 @@ public class Vehicle {
 
     public String getModel() {
         return model;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     public boolean isRented() {
@@ -88,10 +83,6 @@ public class Vehicle {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public void setRented(boolean rented) {

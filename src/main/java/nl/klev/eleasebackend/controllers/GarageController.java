@@ -2,6 +2,7 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.GarageDto;
 import nl.klev.eleasebackend.dtos.GarageInputDto;
+import nl.klev.eleasebackend.dtos.VehicleDto;
 import nl.klev.eleasebackend.services.GarageService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class GarageController {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             GarageDto garageDto = garageService.createGarage(garageInputDto);
+
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/garages/" + garageDto.getGarageName()).toUriString());
 
             return ResponseEntity.created(uri).body(garageDto);
@@ -48,6 +50,12 @@ public class GarageController {
         GarageDto garageDto = garageService.getGarageByName(name);
 
         return ResponseEntity.ok().body(garageDto);
+    }
+
+    @GetMapping("/{name}/vehicles")
+    public ResponseEntity<Object> getGarageWithVehicles(@PathVariable("name") String name) {
+        List<VehicleDto> vehiclesList = garageService.getVehiclesByGarageName(name);
+        return ResponseEntity.ok().body(vehiclesList);
     }
 
     @PutMapping("/{name}")

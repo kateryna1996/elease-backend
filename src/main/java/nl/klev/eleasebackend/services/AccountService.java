@@ -33,7 +33,6 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountInputDto accountInputDto) {
-//        add validation, no repeat values
         AccountDto accountDto = new AccountDto();
         Account createdAccount = AccountTransform.toAccount(accountInputDto);
         int numberToCheck = createdAccount.getDrivingLicenseNumber();
@@ -47,11 +46,15 @@ public class AccountService {
         }
     }
 
-    //adding filters?
     public List<AccountDto> getAllAccounts() {
         List<AccountDto> accountDtoList = new ArrayList<>();
         List<Account> accountList = accountRepository.findAll();
         for (Account account : accountList) {
+            if (account.getVehicle() != null) {
+                account.getVehicle().setRented(true);
+            } else {
+                account.setVehicle(null);
+            }
             accountDtoList.add(AccountTransform.toAccountDto(account));
         }
         if (accountList.isEmpty()) {
@@ -85,12 +88,16 @@ public class AccountService {
 
     public AccountDto updateAccountInformation(Long accountId, AccountInputDto accountInputDto) {
         Optional<Account> account = accountRepository.findById(accountId);
-
         if (account.isPresent()) {
             Account newAccount = account.get();
             Account accountToSet = AccountTransform.toAccount(accountInputDto);
+
             accountToSet.setAccountId(newAccount.getAccountId());
-            Account returningAccount = accountRepository.save(accountToSet);
+            accountToSet.setUser(newAccount.getUser());
+            accountToSet.setMembership(newAccount.getMembership());
+            accountToSet.setVehicle(newAccount.getVehicle());
+
+            accountRepository.save(accountToSet);
             return AccountTransform.toAccountDto(accountToSet);
         } else {
             throw new RecordNotFoundException("The account was not found!");
@@ -120,13 +127,15 @@ public class AccountService {
             var foundAccount = account.get();
             var foundMembership = membership.get();
 
-            foundAccount.setMembership(foundMembership
-            );
-            accountRepository.save(foundAccount);
+            if (foundAccount.getMembership() != null) {
+                throw new RecordNotFoundException("The account has a running subscription!");
+            } else {
+                foundAccount.setMembership(foundMembership
+                );
+                accountRepository.save(foundAccount);
+            }
         } else if (membership.isEmpty()) {
             throw new RecordNotFoundException("Membership with this id has not been found!");
-        } else if (account.isEmpty()) {
-            throw new RecordNotFoundException("Account with this id has not been found!");
         } else {
             throw new RecordNotFoundException("Something went wrong!");
         }
@@ -157,12 +166,18 @@ public class AccountService {
             var foundAccount = account.get();
             var foundVehicle = vehicle.get();
 
-            foundAccount.setVehicle(foundVehicle);
-            accountRepository.save(foundAccount);
+            if (foundVehicle.isDrivingLicenseRequired() && foundAccount.getDrivingLicenseNumber() > 0) {
+                if(accountHasMembership(foundAccount)) {
+                    foundAccount.setVehicle(foundVehicle);
+                    accountRepository.save(foundAccount);
+                } else {
+                    throw  new RecordNotFoundException("You need to purchase a subscription first!");
+                }
+            } else {
+                throw new RecordNotFoundException("You may not use this vehicle as you do not have a driving license!");
+            }
         } else if (vehicle.isEmpty()) {
             throw new RecordNotFoundException("Vehicle with this id has not been found!");
-        } else if (account.isEmpty()){
-            throw new RecordNotFoundException("Membership with this id has not been found!");
         } else {
             throw new RecordNotFoundException("Something went wrong!");
         }
@@ -171,5 +186,9 @@ public class AccountService {
     public boolean accountWithDrivingLicenseExists(int drivingLicense) {
         Optional<Account> foundAccount = Optional.ofNullable(accountRepository.findAccountByDrivingLicenseNumber(drivingLicense));
         return foundAccount.isPresent();
+    }
+
+    public boolean accountHasMembership(Account account) {
+        return account.getMembership() != null;
     }
 }

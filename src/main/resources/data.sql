@@ -29,8 +29,8 @@ VALUES (3001, 'Mercedez-Benz', 350.00, true, false, 'EQS', 'ELECTRIC_CAR', 'Ams0
 
 
 INSERT INTO accounts (account_id, full_name, dob, iban, driving_license_number, membership_id, user_id , vehicle_id)
-VALUES ( 8, 'Joe Doe','1990-08-07', 'NLINGB928374748', '63930487', 7, 4 , 3001),
-       ( 10, 'Mike Anderson', '1968-10-01','NLINGB857205673', '025648392', 9, 24 , 3011),
-       ( 104, 'Jim Curry', '1990-09-30', 'NLINGB035295433', '85613284', 13, 27, 3012),
-       (43,  'Angelina Cole', '1988-01-10','NLINGB035582549', '92650265',  44, 33, 3003 ),
-       ( 51,  'Adgar Poe','2000-12-12','NLINGB265419045', '12932018', 103, 101, 3002);
+VALUES ( 8, 'Joe Doe','1990-08-07', 'NLINGB928374748', 63930487, 7, 4 , 3001),
+       ( 10, 'Mike Anderson', '1968-10-01','NLINGB857205673', 025648392, 9, 24 , 3011),
+       ( 104, 'Jim Curry', '1990-09-30', 'NLINGB035295433', 85613284, 13, 27, 3021),
+       (43,  'Angelina Cole', '1988-01-10','NLINGB035582549', 92650265,  44, 33, 3003 ),
+       ( 51,  'Adgar Poe','2000-12-12','NLINGB265419045', 9372050, 103, 101, 3002);

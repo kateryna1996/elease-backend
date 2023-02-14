@@ -1,8 +1,14 @@
 package nl.klev.eleasebackend.dtos;
 
+import nl.klev.eleasebackend.models.Membership;
+import nl.klev.eleasebackend.models.User;
+import nl.klev.eleasebackend.models.Vehicle;
+
+import javax.swing.plaf.metal.MetalMenuBarUI;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import java.lang.reflect.Member;
 import java.time.LocalDate;
 
 public class AccountInputDto {
@@ -14,9 +20,7 @@ public class AccountInputDto {
     @NotNull
     @Size(min = 8, max = 15, message = "The IBAN field is mandatory, please fiil it in!")
     private String iban;
-    //    @Size(min = 10, max = 10, message = "Driving license number is 10 characters long, please check it again")
     private int drivingLicenseNumber;
-
 
     public String getFullName() {
         return fullName;

@@ -22,12 +22,11 @@ public class VehicleTransform {
         }
         vehicle.setBrand(vehicleInputDto.getBrand());
         vehicle.setModel(vehicleInputDto.getModel());
-        vehicle.setQuantity(vehicleInputDto.getQuantity());
-
         vehicle.setDistanceRangeWithoutCharge(vehicleInputDto.getDistanceRangeWithoutCharge());
-
         vehicle.setType(type);
-
+        if (vehicle.getAccount()!= null) {
+            vehicle.setRented(true);
+        }
         return vehicle;
     }
 
@@ -38,11 +37,13 @@ public class VehicleTransform {
         vehicleDto.setType(vehicle.getType());
         vehicleDto.setBrand(vehicle.getBrand());
         vehicleDto.setModel(vehicle.getModel());
-//        vehicleDto.setQuantity(vehicle.getQuantity());
         vehicleDto.setDrivingLicenseRequired(vehicle.isDrivingLicenseRequired());
         vehicleDto.setDistanceRangeWithoutCharge(vehicle.getDistanceRangeWithoutCharge());
         if(vehicle.getGarage() != null) {
             vehicleDto.setGarage(vehicle.getGarage());
+        }
+        if(vehicle.getAccount() != null) {
+            vehicleDto.setRented(true);
         }
 
         return vehicleDto;
