@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/membership")
+@RequestMapping("/memberships")
 public class MembershipController {
 
     private final MembershipService membershipService;
@@ -31,7 +31,7 @@ public class MembershipController {
         } else {
             MembershipDto membershipDto = membershipService.createMembership(inputDto);
 
-            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/membership/" + membershipDto.getId()).toUriString());
+            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/memberships/" + membershipDto.getId()).toUriString());
 
             return ResponseEntity.created(uri).body(membershipDto);
         }
@@ -51,7 +51,7 @@ public class MembershipController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateMembershipById(@PathVariable("id") Long id, @Valid @RequestBody MembershipInputDto membershipInputDto, BindingResult bindingResult) {
+    public ResponseEntity<?> updateMembershipById(@PathVariable("id") Long id, @Valid @RequestBody MembershipInputDto membershipInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
@@ -62,7 +62,7 @@ public class MembershipController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteMembershipById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteMembershipById(@PathVariable("id") Long id) {
         membershipService.deleteMembershipById(id);
         return ResponseEntity.noContent().build();
     }

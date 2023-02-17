@@ -8,6 +8,8 @@ import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.User;
 import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.utilities.UserTransform;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,8 +18,9 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
+    @Lazy
+    private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;

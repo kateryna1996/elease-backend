@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 public class GarageInputDto {
 
-    @NotNull
     @Size(min = 4, max = 25, message = "The name should be 4-25 characters long")
     private String garageName;
     @NotNull

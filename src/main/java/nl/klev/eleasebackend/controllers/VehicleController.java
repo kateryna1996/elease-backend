@@ -1,6 +1,5 @@
 package nl.klev.eleasebackend.controllers;
 
-import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.dtos.VehicleDto;
 import nl.klev.eleasebackend.dtos.VehicleInputDto;
 import nl.klev.eleasebackend.services.VehicleService;
@@ -25,7 +24,7 @@ public class VehicleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> addVehicle(@Valid @RequestBody VehicleInputDto vehicleInputDto, BindingResult bindingResult){
+    public ResponseEntity<Object> addVehicle(@Valid @RequestBody VehicleInputDto vehicleInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
@@ -38,21 +37,26 @@ public class VehicleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<VehicleDto>> getVehicles(){
+    public ResponseEntity<List<VehicleDto>> getVehicles() {
         List<VehicleDto> vehicleDtoList = vehicleService.getVehicles();
-
         return ResponseEntity.ok().body(vehicleDtoList);
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<VehicleDto>> getAvailableVehicles() {
+        List<VehicleDto> availableVehicles = vehicleService.getAvailableVehicles();
+        return ResponseEntity.ok().body(availableVehicles);
+    }
+
     @GetMapping("/{vehicleId}")
-    public ResponseEntity<VehicleDto> getVehicleById(@PathVariable("vehicleId") Long id){
+    public ResponseEntity<VehicleDto> getVehicleById(@PathVariable("vehicleId") Long id) {
         VehicleDto vehicleDto = vehicleService.getVehicleById(id);
         return ResponseEntity.ok().body(vehicleDto);
     }
 
     @PutMapping("/{vehicleId}")
     public ResponseEntity updateVehicle(@PathVariable("vehicleId") Long id, @Valid @RequestBody VehicleInputDto vehicleInputDto, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             vehicleService.updateVehicle(id, vehicleInputDto);

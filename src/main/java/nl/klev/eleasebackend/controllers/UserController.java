@@ -64,11 +64,6 @@ public class UserController {
         return ResponseEntity.ok().body(foundUserDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserById(@PathVariable("id") Long id) {
-        userService.deleteUserById(id);
-        return ResponseEntity.noContent().build();
-    }
 
     @PutMapping("/{name}")
     public ResponseEntity updateUser(@PathVariable("name") String username,@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult){
@@ -78,6 +73,12 @@ public class UserController {
             userService.updateUserInformation(username, userInputDto);
             return ResponseEntity.ok().body("The user is updated!");
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUserById(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/names/{name}")
