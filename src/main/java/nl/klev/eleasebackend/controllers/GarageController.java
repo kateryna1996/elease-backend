@@ -53,13 +53,13 @@ public class GarageController {
     }
 
     @GetMapping("/{name}/vehicles")
-    public ResponseEntity<Object> getGarageWithVehicles(@PathVariable("name") String name) {
+    public ResponseEntity<List<VehicleDto>> getGarageWithVehicles(@PathVariable("name") String name) {
         List<VehicleDto> vehiclesList = garageService.getVehiclesByGarageName(name);
         return ResponseEntity.ok().body(vehiclesList);
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity updateGarage(@PathVariable("name") String name, @Valid @RequestBody GarageInputDto garageInputDto, BindingResult bindingResult) {
+    public ResponseEntity<Object> updateGarage(@PathVariable("name") String name, @Valid @RequestBody GarageInputDto garageInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
@@ -69,7 +69,7 @@ public class GarageController {
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity deleteGarageByName(@PathVariable("name") String name) {
+    public ResponseEntity<?> deleteGarageByName(@PathVariable("name") String name) {
         garageService.deleteGarageByName(name);
         return ResponseEntity.noContent().build();
     }

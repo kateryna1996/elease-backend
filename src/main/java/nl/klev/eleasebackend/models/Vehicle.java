@@ -23,7 +23,7 @@ public class Vehicle {
     @JoinColumn(name = "garage_name")
     private Garage garage;
 
-    @OneToOne(mappedBy = "vehicle")
+    @OneToOne(mappedBy = "vehicle", cascade = CascadeType.ALL)
     @JsonIgnore
     private Account account;
 

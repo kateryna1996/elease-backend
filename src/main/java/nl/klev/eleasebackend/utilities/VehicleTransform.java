@@ -39,7 +39,7 @@ public class VehicleTransform {
         vehicleDto.setModel(vehicle.getModel());
         vehicleDto.setDrivingLicenseRequired(vehicle.isDrivingLicenseRequired());
         vehicleDto.setDistanceRangeWithoutCharge(vehicle.getDistanceRangeWithoutCharge());
-        if(vehicle.getGarage() != null) {
+        if(vehicle.getGarage() != null ) {
             vehicleDto.setGarage(vehicle.getGarage());
         }
         if(vehicle.getAccount() != null) {

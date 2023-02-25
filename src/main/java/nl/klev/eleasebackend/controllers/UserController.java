@@ -3,6 +3,7 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.UserDto;
 import nl.klev.eleasebackend.dtos.UserInputDto;
+import nl.klev.eleasebackend.exceptions.BadRequestException;
 import nl.klev.eleasebackend.services.UserService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -26,48 +28,44 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity <Object> addUser(@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult) {
-        if( bindingResult.hasErrors()) {
+    public ResponseEntity<Object> addUser(@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
-            UserDto userDto = userService.createUser(userInputDto);
+            String password = userInputDto.getPassword();
 
-            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/" + userDto.getId()).toUriString());
+            String username = userService.createUser(userInputDto);
+            userService.addAuthority(username, "ROLE_USER");
 
-            return ResponseEntity.created(uri).body("The user with the id " + userDto.getId() + " is successfully created! You can proceed to your account " + uri + " .");
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                    .buildAndExpand(username).toUri();
+
+            return ResponseEntity.created(uri).build();
         }
     }
 
-//adding filter?
     @GetMapping("")
-    public ResponseEntity<Object> getUsers(@RequestParam (value = "username", required = false) Optional <String> username) {
-        if(username.isEmpty()) {
-             List<UserDto> userDtos = userService.getUsers();
-            return ResponseEntity.ok().body(userDtos);
-        } else {
-            String name = username.get();
-            UserDto foundUserDto = userService.getUserByUsername(name);
-            return ResponseEntity.ok().body(foundUserDto);
-        }
+    public ResponseEntity<Object> getUsers() {
+        List<UserDto> userDtos = userService.getUsers();
+        return ResponseEntity.ok().body(userDtos);
     }
 
-    @GetMapping("/names/{name}")
-    public ResponseEntity<List<UserDto>> getUsersByNameContainingString(@PathVariable("name") String name) {
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable("username") String username) {
+        UserDto foundUserDto = userService.getUser(username);
+        return ResponseEntity.ok().body(foundUserDto);
+    }
+
+    @GetMapping("/all/{string}")
+    public ResponseEntity<List<UserDto>> getUsersByNameContainingString(@PathVariable("string") String name) {
         List<UserDto> foundUsersDto = userService.getUsersByUsernameIncludingString(name);
 
         return ResponseEntity.ok().body(foundUsersDto);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id){
-        UserDto foundUserDto = userService.getUserById(id);
-        return ResponseEntity.ok().body(foundUserDto);
-    }
-
-
-    @PutMapping("/{name}")
-    public ResponseEntity updateUser(@PathVariable("name") String username,@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    @PutMapping("/{username}")
+    public ResponseEntity<Object> updateUser(@PathVariable("username") String username, @Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             userService.updateUserInformation(username, userInputDto);
@@ -75,16 +73,31 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserById(@PathVariable("id") Long id) {
-        userService.deleteUserById(id);
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Object> deleteUserById(@PathVariable("username") String username) {
+        userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/names/{name}")
-    public ResponseEntity deleteUserByName(@PathVariable("name") String name) {
-       userService.deleteUserByName(name);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/{username}/authorities")
+    public ResponseEntity<Object> getUserAuthorities(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.getAuthorities(username));
     }
 
+    @PostMapping("/{username}/authorities")
+    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
+        try {
+            String authorityName = (String) fields.get("authority");
+            userService.addAuthority(username, authorityName);
+            return ResponseEntity.noContent().build();
+        } catch (Exception ex) {
+            throw new BadRequestException();
+        }
+    }
+
+    @DeleteMapping("/{username}/authorities/{authority}")
+    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
+        userService.removeAuthority(username, authority);
+        return ResponseEntity.noContent().build();
+    }
 }

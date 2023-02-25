@@ -60,7 +60,6 @@ public class MembershipController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMembershipById(@PathVariable("id") Long id) {
         membershipService.deleteMembershipById(id);

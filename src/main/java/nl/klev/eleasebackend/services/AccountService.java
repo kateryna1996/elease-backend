@@ -5,6 +5,7 @@ import nl.klev.eleasebackend.dtos.AccountInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.Account;
+import nl.klev.eleasebackend.models.User;
 import nl.klev.eleasebackend.repositories.AccountRepository;
 import nl.klev.eleasebackend.repositories.MembershipRepository;
 import nl.klev.eleasebackend.repositories.UserRepository;
@@ -109,16 +110,6 @@ public class AccountService {
         accountRepository.delete(foundAccount);
     }
 
-    public void deleteAccountById(Long accountId) {
-        if (accountRepository.existsById(accountId)) {
-            accountRepository.deleteById(accountId);
-        } else if (accountId < 0) {
-            throw new RecordNotFoundException("The id cannot be negative, choose again");
-        } else {
-            throw new RecordNotFoundException("The account with this id does not exist!");
-        }
-    }
-
     public void assignMembershipToAccount(Long accountId, Long membershipId) {
         var account = accountRepository.findById(accountId);
         var membership = membershipRepository.findById(membershipId);
@@ -141,18 +132,18 @@ public class AccountService {
         }
     }
 
-    public void assignUserToAccount(Long accountId, Long membershipId) {
+    public void assignUserToAccount(Long accountId,String username) {
         var account = accountRepository.findById(accountId);
-        var user = userRepository.findById(membershipId);
+        var user = userRepository.findById(username);
 
         if (account.isPresent() && user.isPresent()) {
-            var foundAccount = account.get();
-            var foundUser = user.get();
+            Account foundAccount = account.get();
+            User foundUser = user.get();
 
             foundAccount.setUser(foundUser);
             accountRepository.save(foundAccount);
         } else if (user.isEmpty()) {
-            throw new RecordNotFoundException("User with the id has not been found!");
+            throw new RecordNotFoundException("User with the username has not been found!");
         } else {
             throw new RecordNotFoundException("Account with this id has not been found!");
         }

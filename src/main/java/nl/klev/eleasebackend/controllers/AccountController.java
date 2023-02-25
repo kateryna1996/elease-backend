@@ -2,10 +2,8 @@ package nl.klev.eleasebackend.controllers;
 
 import nl.klev.eleasebackend.dtos.AccountDto;
 import nl.klev.eleasebackend.dtos.AccountInputDto;
-import nl.klev.eleasebackend.dtos.IdInputDto;
 import nl.klev.eleasebackend.services.AccountService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
-import nl.klev.eleasebackend.utilities.WriteToFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,58 +38,52 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Object> getAllAccounts(@RequestParam(value = "fullname", required = false)Optional <String> fullname) {
-        if (fullname.isEmpty()) {
+    public ResponseEntity<Object> getAllAccounts(@RequestParam(value = "fullName", required = false) Optional<String> fullName) {
+        if (fullName.isEmpty()) {
             List<AccountDto> accountDtoList = accountService.getAllAccounts();
             return ResponseEntity.ok().body(accountDtoList);
         } else {
-            AccountDto foundAccount = accountService.getAccountByName(fullname.get());
+            AccountDto foundAccount = accountService.getAccountByName(String.valueOf(fullName));
             return ResponseEntity.ok().body(foundAccount);
         }
     }
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") Long accountId){
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") Long accountId) {
         AccountDto foundAccountDto = accountService.getAccountById(accountId);
         return ResponseEntity.ok().body(foundAccountDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAccountDetails(@PathVariable Long id, @Valid @RequestBody AccountInputDto accountInputDto, BindingResult bindingResult) {
+    @PutMapping("/{accountId}")
+    public ResponseEntity<Object> updateAccountDetails(@PathVariable Long accountId, @Valid @RequestBody AccountInputDto accountInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
-            AccountDto accountDto = accountService.updateAccountInformation(id, accountInputDto);
+            AccountDto accountDto = accountService.updateAccountInformation(accountId, accountInputDto);
             return ResponseEntity.ok().body(accountDto);
         }
     }
 
-
-    @DeleteMapping("/{name}")
-    public ResponseEntity <Object> deleteAccountByUserName(@PathVariable("name") String name) {
-        accountService.deleteAccountByName(name);
+    @DeleteMapping("/{fullName}")
+    public ResponseEntity<Object> deleteAccountByUserName(@PathVariable("fullName") String fullName) {
+        accountService.deleteAccountByName(fullName);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/deleteById/{accountId}")
-    public ResponseEntity<Object> deleteAccountById(@PathVariable Long accountId) {
-        accountService.deleteAccountById(accountId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{id}/membership")
-    public void assignMembershipToAccount(@PathVariable("id") Long accountId, @RequestBody IdInputDto membershipId) {
-        accountService.assignMembershipToAccount(accountId, membershipId.id);
-    }
-
-    @PutMapping("/{id}/user")
-    public ResponseEntity<Object> assignAccountToUser(@PathVariable("id") Long id, @RequestBody IdInputDto accountId){
-        accountService.assignUserToAccount(id,accountId.id);
+    @PutMapping("/{accountId}/user")
+    public ResponseEntity<Object> assignAccountToUser(@PathVariable("accountId") Long accountId, @RequestBody String username) {
+        accountService.assignUserToAccount(accountId, username);
         return ResponseEntity.ok().body("Done!");
     }
-    @PutMapping("/{id}/vehicle")
-    public ResponseEntity assignVehicleToAccount(@PathVariable("id") Long id, @RequestBody IdInputDto vehicleId) {
-        accountService.assignVehicleToAccount(id,vehicleId.id);
+
+    @PutMapping("/{accountId}/membership")
+    public void assignMembershipToAccount(@PathVariable("accountId") Long accountId, @RequestBody Long membershipId) {
+        accountService.assignMembershipToAccount(accountId, membershipId);
+    }
+
+    @PutMapping("/{accountId}/vehicle")
+    public ResponseEntity<?> assignVehicleToAccount(@PathVariable("accountId") Long accountId, @RequestBody Long vehicleId) {
+        accountService.assignVehicleToAccount(accountId, vehicleId);
         return ResponseEntity.noContent().build();
     }
 }

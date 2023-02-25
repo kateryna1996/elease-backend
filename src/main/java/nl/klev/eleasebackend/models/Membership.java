@@ -20,7 +20,7 @@ public class Membership {
 
 
     @OneToOne
-            (mappedBy = "membership")
+            (mappedBy = "membership", cascade = CascadeType.ALL)
     @JsonIgnore
     private Account account;
 
