@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Membership {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long membershipId;
     private String name;
     private String type;
@@ -19,8 +19,11 @@ public class Membership {
     private boolean parkingIncluded;
 
 
-    @OneToOne
-            (mappedBy = "membership", cascade = CascadeType.ALL)
+    @OneToOne(
+            mappedBy = "membership",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JsonIgnore
     private Account account;
 

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "vehicles")
 public class Vehicle {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vehicleId;
     @Enumerated(EnumType.STRING)
     private VehicleType type;
@@ -23,7 +23,10 @@ public class Vehicle {
     @JoinColumn(name = "garage_name")
     private Garage garage;
 
-    @OneToOne(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "vehicle",
+            cascade=CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JsonIgnore
     private Account account;
 

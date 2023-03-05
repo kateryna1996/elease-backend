@@ -8,22 +8,31 @@ import java.time.LocalDate;
 public class Account {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
     private String fullName;
     private LocalDate dob;
     private String iban;
     private int drivingLicenseNumber;
 
-    @OneToOne
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "membership_id")
     private Membership membership;
 
-    @OneToOne
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 

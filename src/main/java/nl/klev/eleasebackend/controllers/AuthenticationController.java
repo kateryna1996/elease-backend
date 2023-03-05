@@ -29,10 +29,10 @@ public class AuthenticationController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/authenticated")
-    public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
-        return ResponseEntity.ok().body(principal);
-    }
+//    @GetMapping("/authenticated")
+//    public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
+//        return ResponseEntity.ok().body(principal);
+//    }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {

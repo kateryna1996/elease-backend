@@ -2,6 +2,7 @@ package nl.klev.eleasebackend.services;
 
 import nl.klev.eleasebackend.dtos.AccountDto;
 import nl.klev.eleasebackend.dtos.AccountInputDto;
+import nl.klev.eleasebackend.dtos.StringInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.Account;
@@ -80,7 +81,7 @@ public class AccountService {
         Optional<Account> foundAccount = accountRepository.findById(accountId);
         if (foundAccount.isPresent()) {
             accountDto = AccountTransform.toAccountDto(foundAccount.get());
-            WriteToFile.toFile(foundAccount.get());
+//            WriteToFile.toFile(foundAccount.get());
         } else {
             throw new RecordNotFoundException("The account with the id " + accountId + " cannot be found!");
         }
@@ -110,6 +111,23 @@ public class AccountService {
         accountRepository.delete(foundAccount);
     }
 
+    public void assignUserToAccount(Long accountId, String username) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        Optional<User> user = userRepository.findById(username);
+
+        if (account.isPresent() && user.isPresent()) {
+            Account foundAccount = account.get();
+            User foundUser = user.get();
+
+            foundAccount.setUser(foundUser);
+            accountRepository.save(foundAccount);
+        } else if (user.isEmpty()) {
+            throw new RecordNotFoundException("User with the username has not been found!");
+        } else {
+            throw new RecordNotFoundException("Account with this id has not been found!");
+        }
+    }
+
     public void assignMembershipToAccount(Long accountId, Long membershipId) {
         var account = accountRepository.findById(accountId);
         var membership = membershipRepository.findById(membershipId);
@@ -132,23 +150,6 @@ public class AccountService {
         }
     }
 
-    public void assignUserToAccount(Long accountId,String username) {
-        var account = accountRepository.findById(accountId);
-        var user = userRepository.findById(username);
-
-        if (account.isPresent() && user.isPresent()) {
-            Account foundAccount = account.get();
-            User foundUser = user.get();
-
-            foundAccount.setUser(foundUser);
-            accountRepository.save(foundAccount);
-        } else if (user.isEmpty()) {
-            throw new RecordNotFoundException("User with the username has not been found!");
-        } else {
-            throw new RecordNotFoundException("Account with this id has not been found!");
-        }
-    }
-
     public void assignVehicleToAccount(Long accountId, Long vehicleId) {
         var account = accountRepository.findById(accountId);
         var vehicle = vehicleRepository.findById(vehicleId);
@@ -158,11 +159,11 @@ public class AccountService {
             var foundVehicle = vehicle.get();
 
             if (foundVehicle.isDrivingLicenseRequired() && foundAccount.getDrivingLicenseNumber() > 0) {
-                if(accountHasMembership(foundAccount)) {
+                if (accountHasMembership(foundAccount)) {
                     foundAccount.setVehicle(foundVehicle);
                     accountRepository.save(foundAccount);
                 } else {
-                    throw  new RecordNotFoundException("You need to purchase a subscription first!");
+                    throw new RecordNotFoundException("You need to purchase a subscription first!");
                 }
             } else {
                 throw new RecordNotFoundException("You may not use this vehicle as you do not have a driving license!");

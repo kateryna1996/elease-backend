@@ -15,7 +15,11 @@ public class Garage {
     private Country country;
     private String zipCode;
 
-    @OneToMany(mappedBy = "garage", cascade = CascadeType.REMOVE, orphanRemoval = false)
+    @OneToMany(
+            mappedBy = "garage",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JsonIgnore
     private List<Vehicle> vehicles;
 

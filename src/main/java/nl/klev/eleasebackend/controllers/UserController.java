@@ -4,6 +4,7 @@ package nl.klev.eleasebackend.controllers;
 import nl.klev.eleasebackend.dtos.UserDto;
 import nl.klev.eleasebackend.dtos.UserInputDto;
 import nl.klev.eleasebackend.exceptions.BadRequestException;
+import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.services.UserService;
 import nl.klev.eleasebackend.utilities.ErrorReport;
 import org.springframework.http.ResponseEntity;
@@ -97,7 +98,12 @@ public class UserController {
 
     @DeleteMapping("/{username}/authorities/{authority}")
     public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
-        userService.removeAuthority(username, authority);
-        return ResponseEntity.noContent().build();
+        if(userService.getAuthorities(authority) != null) {
+            userService.removeAuthority(username, authority);
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new RecordNotFoundException("The specified authority of this user was not found!");
+        }
+
     }
 }

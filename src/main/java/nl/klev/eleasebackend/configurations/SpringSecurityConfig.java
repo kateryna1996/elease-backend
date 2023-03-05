@@ -45,8 +45,6 @@ public class SpringSecurityConfig {
 
     @Bean
     protected SecurityFilterChain filter(HttpSecurity http) throws Exception {
-
-        //JWT token authentication
         http
                 .csrf().disable()
                 .httpBasic().disable()
@@ -55,9 +53,9 @@ public class SpringSecurityConfig {
 //                users
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/all/{string}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/users/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/users/{username}").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/users/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/users/**").hasAnyRole("ADMIN", "USER")
 
 //                authority-user
@@ -70,35 +68,31 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/accounts/{accountId}").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/accounts/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/accounts").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/accounts/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/accounts/**").hasAnyRole("ADMIN", "USER")
 
 //                assigning entities
-                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/vehicle").hasAnyRole("ADMIN", "User")
-                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/user").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/membership").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/vehicle").hasRole("ADMIN")
 
 //                memberships
                 .antMatchers(HttpMethod.POST, "/memberships").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/memberships/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/memberships/{membershipId}").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/memberships").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/memberships/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/memberships/**").hasRole("ADMIN")
 
 //                vehicles
                 .antMatchers(HttpMethod.POST, "/vehicles").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/vehicles/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/vehicles").hasAnyRole("ADMIN", "USER")
-                .antMatchers(HttpMethod.PUT, "/vehicles/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, "/vehicles/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN")
-
-//                vehicles-garage
-                .antMatchers(HttpMethod.PUT, "/vehicles/{garageName}").hasRole("ADMIN")
 
 //                garages
                 .antMatchers(HttpMethod.POST, "/garages").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/garages/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/garages").hasAnyRole("ADMIN", "USER")
-                .antMatchers(HttpMethod.PUT, "/garages/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, "/garages/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/garages/**").hasRole("ADMIN")
 
 //                files
@@ -106,7 +100,6 @@ public class SpringSecurityConfig {
 
 
 //                authentication
-                .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()
 
                 .anyRequest().permitAll()
