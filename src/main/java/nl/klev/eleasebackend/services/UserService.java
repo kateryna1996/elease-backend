@@ -92,7 +92,6 @@ public class UserService {
             if (newUser.getEnabled() != null) {
                 user.setEnabled(newUser.getEnabled());
             }
-//            check?
             if(newUser.getApikey() != null) {
                 user.setApikey(newUser.getApikey());
             } else {

@@ -9,30 +9,22 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long accountId;
     private String fullName;
     private LocalDate dob;
     private String iban;
     private int drivingLicenseNumber;
 
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
+    @OneToOne
     @JoinColumn(name = "membership_id")
     private Membership membership;
 
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
+    @OneToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 

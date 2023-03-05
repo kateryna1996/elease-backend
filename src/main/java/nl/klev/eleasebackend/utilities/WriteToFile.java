@@ -11,25 +11,25 @@ public class WriteToFile {
         int number = account.getClass().getFields().length;
         String data = account.toString();
         String separator = data + System.lineSeparator();
-        File file = new File("output.txt");
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
-
-        try {
-            fileWriter = new FileWriter(file);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            for (int i = number; i > 0; i--) {
-                bufferedWriter.write(separator);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                bufferedWriter.close();
-                fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        File file = new File("output.txt");
+//        FileWriter fileWriter = null;
+//        BufferedWriter bufferedWriter = null;
+//
+//        try {
+//            fileWriter = new FileWriter(file);
+//            bufferedWriter = new BufferedWriter(fileWriter);
+//            for (int i = number; i > 0; i--) {
+//                bufferedWriter.write(separator);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                bufferedWriter.close();
+//                fileWriter.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }

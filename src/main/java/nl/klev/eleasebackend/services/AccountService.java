@@ -2,7 +2,6 @@ package nl.klev.eleasebackend.services;
 
 import nl.klev.eleasebackend.dtos.AccountDto;
 import nl.klev.eleasebackend.dtos.AccountInputDto;
-import nl.klev.eleasebackend.dtos.StringInputDto;
 import nl.klev.eleasebackend.exceptions.RecordNotFoundException;
 import nl.klev.eleasebackend.exceptions.UserNotFoundException;
 import nl.klev.eleasebackend.models.Account;
@@ -12,7 +11,6 @@ import nl.klev.eleasebackend.repositories.MembershipRepository;
 import nl.klev.eleasebackend.repositories.UserRepository;
 import nl.klev.eleasebackend.repositories.VehicleRepository;
 import nl.klev.eleasebackend.utilities.AccountTransform;
-import nl.klev.eleasebackend.utilities.WriteToFile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,7 +40,6 @@ public class AccountService {
             throw new RecordNotFoundException("The account with this driving license already exists!");
         } else {
             accountRepository.save(createdAccount);
-//        delete later
             accountDto = AccountTransform.toAccountDto(createdAccount);
             return accountDto;
         }
@@ -107,8 +104,13 @@ public class AccountService {
     }
 
     public void deleteAccountByName(String name) {
-        Account foundAccount = accountRepository.findAccountByFullName(name);
-        accountRepository.delete(foundAccount);
+        if(accountRepository.findAccountByFullName(name) != null) {
+            Account foundAccount = accountRepository.findAccountByFullName(name);
+            accountRepository.delete(foundAccount);
+        }
+        else {
+            throw new UserNotFoundException(name);
+        }
     }
 
     public void assignUserToAccount(Long accountId, String username) {

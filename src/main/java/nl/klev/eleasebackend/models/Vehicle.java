@@ -1,6 +1,5 @@
 package nl.klev.eleasebackend.models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -10,6 +9,7 @@ import javax.persistence.*;
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long vehicleId;
     @Enumerated(EnumType.STRING)
     private VehicleType type;
@@ -19,14 +19,17 @@ public class Vehicle {
     private boolean drivingLicenseRequired;
     private double distanceRangeWithoutCharge;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "garage_name")
     private Garage garage;
 
-    @OneToOne(mappedBy = "vehicle",
-            cascade=CascadeType.ALL,
-            orphanRemoval = true
+    @OneToOne(
+            mappedBy = "vehicle",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
+
     @JsonIgnore
     private Account account;
 

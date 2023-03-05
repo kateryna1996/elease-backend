@@ -10,6 +10,7 @@ public class Membership {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long membershipId;
     private String name;
     private String type;
@@ -22,8 +23,10 @@ public class Membership {
     @OneToOne(
             mappedBy = "membership",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
+
     @JsonIgnore
     private Account account;
 

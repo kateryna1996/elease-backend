@@ -1,5 +1,7 @@
 package nl.klev.eleasebackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,22 +14,38 @@ public class User {
     private String username;
 
     @Column(nullable = false, length = 255)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)
+    @JsonIgnore
     private boolean enabled = true;
 
+    @JsonIgnore
     private String apikey;
 
     private String email;
+
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+
+    @JsonIgnore
+    private Account account;
 
     @OneToMany(
             targetEntity = Authority.class,
             mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.EAGER
+    )
+
     private Set<Authority> authorities = new HashSet<>();
+
 
     public String getUsername() {
         return username;
@@ -69,6 +87,14 @@ public class User {
         this.email = email;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     public Set<Authority> getAuthorities() {
         return authorities;
     }
@@ -80,4 +106,5 @@ public class User {
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
     }
+
 }

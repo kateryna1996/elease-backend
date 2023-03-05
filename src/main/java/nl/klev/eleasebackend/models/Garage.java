@@ -10,6 +10,7 @@ import java.util.List;
 public class Garage {
 
     @Id
+    @Column(nullable = false)
     private String garageName;
     @Enumerated(EnumType.STRING)
     private Country country;
@@ -18,8 +19,10 @@ public class Garage {
     @OneToMany(
             mappedBy = "garage",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
+
     @JsonIgnore
     private List<Vehicle> vehicles;
 
