@@ -40,12 +40,11 @@ Once you have finished the preparations, you would need to download the source c
 
 Then you would need to change the application properties according to your own settings: 
 
-spring.datasource.username = your username
+`spring.datasource.username = your username`
 
-spring.datasource.password = your password.
+`spring.datasource.password = your password.`
 
 In order to test the application I recommend installing
-
 [![My Skills](https://skillicons.dev/icons?i=postman)](https://skillicons.dev)
 Postman API Platform, to download -> https://www.postman.com/ 
 
@@ -54,4 +53,4 @@ The application would require authorization and authentication. You may use the 
 _P.S. Only existing accounts with admin role may add new admins._
 
 
-_~This API is created as final assignment for 💫NOVI Hogeschool 2023~_
+_This API is created as final assignment for 💫NOVI Hogeschool 2023_
