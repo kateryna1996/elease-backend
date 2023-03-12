@@ -32,7 +32,7 @@ PostgreSQL.
 
 In order to run the application you need to have:
 
--[ ] any IDE, I have used IntelliJ IDEA, you may download it here -> https://www.jetbrains.com/idea/ ;
+- [ ] any IDE, I have used IntelliJ IDEA, you may download it here -> https://www.jetbrains.com/idea/ ;
 - [ ] a running database application, in my case PostgreSQL, to download -> https://www.postgresql.org/ ; 
 - [ ] a development and administration platform for the database, pgAdmin, to download -> https://www.pgadmin.org/ .
 
