@@ -47,8 +47,9 @@ public class MembershipService {
     public MembershipDto getMembershipById(Long id) {
         MembershipDto membershipDto = new MembershipDto();
         if (membershipExists(id)) {
-            Membership foundMembership = membershipRepository.findById(id).get();
-            membershipDto = MembershipTransform.toMembershipDto(foundMembership);
+            Optional<Membership> foundMembership = membershipRepository.findById(id);
+            Membership found = foundMembership.get();
+            membershipDto = MembershipTransform.toMembershipDto(found);
         } else {
             throw new RecordNotFoundException("The membership with the id " + id + " cannot be found!");
         }

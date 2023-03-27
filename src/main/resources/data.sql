@@ -14,7 +14,7 @@ VALUES ('angeLe', 'coleA@gmail.com', '$2a$12$M2yHmP3lO0805ZONK1aBtu6oJWAzio6EJfB
         'hgfdfyu'); --    password    angel
 INSERT INTO users (username, email, password, enabled, apikey)
 VALUES ('poeAlan', 'crow@live.com', '$2a$12$VT6PI8R0iv9CIJ1l0vx/T.1D.s4BtGvucPMmlSZ6k2NJfLtKgEKUS', TRUE, 'drseedr');
---    password  alan
+--    password  angel
 
 -- ----------------- Authorities ---------------------------
 

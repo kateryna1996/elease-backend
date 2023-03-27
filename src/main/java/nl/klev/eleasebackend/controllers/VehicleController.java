@@ -54,6 +54,12 @@ public class VehicleController {
         return ResponseEntity.ok().body(vehicleDto);
     }
 
+//    @GetMapping("/brands/{brand}")
+//    public ResponseEntity<VehicleDto> getVehicleByBrand(@PathVariable("brand") String brand) {
+////        VehicleDto vehicleDto = vehicleService.getVehicleById(id);
+////        return ResponseEntity.ok().body(vehicleDto);
+//    }
+
     @PutMapping("/{vehicleId}")
     public ResponseEntity<Object> updateVehicle(@PathVariable("vehicleId") Long id, @Valid @RequestBody VehicleInputDto vehicleInputDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

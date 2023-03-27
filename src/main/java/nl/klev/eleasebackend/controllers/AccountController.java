@@ -72,9 +72,8 @@ public class AccountController {
     }
 
     @PutMapping("/{accountId}/user")
-    public ResponseEntity<Object> assignAccountToUser(@PathVariable("accountId") Long accountId, @RequestBody StringInputDto username) {
+    public void assignAccountToUser(@PathVariable("accountId") Long accountId, @RequestBody StringInputDto username) {
         accountService.assignUserToAccount(accountId, username.string);
-        return ResponseEntity.ok().body("Done!");
     }
 
     @PutMapping("/{accountId}/membership")
@@ -83,8 +82,7 @@ public class AccountController {
     }
 
     @PutMapping("/{accountId}/vehicle")
-    public ResponseEntity<?> assignVehicleToAccount(@PathVariable("accountId") Long accountId, @RequestBody IdInputDto inputDto) {
+    public void assignVehicleToAccount(@PathVariable("accountId") Long accountId, @RequestBody IdInputDto inputDto) {
         accountService.assignVehicleToAccount(accountId, inputDto.id);
-        return ResponseEntity.noContent().build();
     }
 }

@@ -50,6 +50,7 @@ public class SpringSecurityConfig {
                 .httpBasic().disable()
                 .cors().and()
                 .authorizeRequests()
+
 //                users
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/all/{string}").hasRole("ADMIN")
@@ -73,8 +74,8 @@ public class SpringSecurityConfig {
 
 //                assigning entities
                 .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/user").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/membership").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/vehicle").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/membership").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, "/accounts/{accountId}/vehicle").hasAnyRole("ADMIN", "USER")
 
 //                memberships
                 .antMatchers(HttpMethod.POST, "/memberships").hasRole("ADMIN")

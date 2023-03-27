@@ -33,6 +33,18 @@ public class Membership {
     public Membership() {
     }
 
+    public Membership(Long membershipId, String name, String type, LocalDate membershipStartDate, LocalDate membershipEndDate, double costs, boolean parkingIncluded, Account account) {
+        this.membershipId = membershipId;
+        this.name = name;
+        this.type = type;
+        this.membershipStartDate = membershipStartDate;
+        this.membershipEndDate = membershipEndDate;
+        this.costs = costs;
+        this.parkingIncluded = parkingIncluded;
+        this.account = account;
+    }
+
+
     public Long getMembershipId() {
         return membershipId;
     }
