@@ -17,20 +17,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-<<<<<<< HEAD
-=======
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
->>>>>>> 56462df728c6a09a501a2d29398eb062bba4a715
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-<<<<<<< HEAD
 import static org.mockito.Mockito.when;
-=======
-import static org.mockito.Mockito.*;
->>>>>>> 56462df728c6a09a501a2d29398eb062bba4a715
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -135,10 +127,9 @@ class GarageControllerTest {
         ;
     }
 
-<<<<<<< HEAD
     @Test
     void shouldUpdateGarage() throws Exception {
-        garageService.updateGarage( "Gron27",garageInputDto);
+        garageService.updateGarage("Gron27", garageInputDto);
 
         this.mockMvc
                 .perform(put("/garages/Gron27")
@@ -149,21 +140,6 @@ class GarageControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("Done!"))
         ;
-=======
-        @Test
-    void shouldUpdateGarage() throws Exception {
-       garageService.updateGarage( "Gron27",garageInputDto);
-
-            this.mockMvc
-                    .perform(put("/garages/Gron27")
-                            .content(asJsonString(garageInputDto))
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                    )
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$").value("Done!"))
-            ;
->>>>>>> 56462df728c6a09a501a2d29398eb062bba4a715
     }
 
     @Test

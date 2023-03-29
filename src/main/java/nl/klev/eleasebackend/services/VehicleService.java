@@ -103,20 +103,6 @@ public class VehicleService {
         }
     }
 
-    public List<VehicleDto> getVehiclesByBrand(String brand) {
-        String properBrand = properStringCheck(brand);
-        List<Vehicle> allVehicles = vehicleRepository.findVehiclesByBrand(properBrand);
-        List<VehicleDto> vehiclesToDisplay = new ArrayList<>();
-
-        for (Vehicle v : allVehicles) {
-            vehiclesToDisplay.add(VehicleTransform.toVehicleDto(v));
-        }
-        if (vehiclesToDisplay.isEmpty()) {
-            throw new RecordNotFoundException("The vehicles of this brand have not been found!");
-        }
-        return vehiclesToDisplay;
-    }
-
     public boolean vehicleExists(Long id) {
         return vehicleRepository.existsById(id);
     }
