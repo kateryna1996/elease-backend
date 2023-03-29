@@ -75,7 +75,7 @@ public class UserService {
     }
 
     public UserDto getUser(String username) {
-        UserDto userDto = new UserDto();
+        UserDto userDto ;
         Optional<User> foundUser = userRepository.findById(username);
         if (foundUser.isPresent()) {
             userDto = toUserDto(foundUser.get());

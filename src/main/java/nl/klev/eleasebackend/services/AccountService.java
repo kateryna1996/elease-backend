@@ -33,7 +33,7 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountInputDto accountInputDto) {
-        AccountDto accountDto = new AccountDto();
+        AccountDto accountDto;
         Account createdAccount = AccountTransform.toAccount(accountInputDto);
         int numberToCheck = createdAccount.getDrivingLicenseNumber();
         if (accountWithDrivingLicenseExists(numberToCheck)) {
@@ -63,7 +63,7 @@ public class AccountService {
     }
 
     public AccountDto getAccountByName(String name) {
-        AccountDto foundAccountDto = new AccountDto();
+        AccountDto foundAccountDto;
         Account foundAccount = accountRepository.findAccountByFullName(name);
         if (foundAccount == null) {
             throw new UserNotFoundException(name);
@@ -74,11 +74,10 @@ public class AccountService {
     }
 
     public AccountDto getAccountById(Long accountId) {
-        AccountDto accountDto = new AccountDto();
+        AccountDto accountDto;
         Optional<Account> foundAccount = accountRepository.findById(accountId);
         if (foundAccount.isPresent()) {
             accountDto = AccountTransform.toAccountDto(foundAccount.get());
-//            WriteToFile.toFile(foundAccount.get());
         } else {
             throw new RecordNotFoundException("The account with the id " + accountId + " cannot be found!");
         }
@@ -104,11 +103,10 @@ public class AccountService {
     }
 
     public void deleteAccountByName(String name) {
-        if(accountRepository.findAccountByFullName(name) != null) {
+        if (accountRepository.findAccountByFullName(name) != null) {
             Account foundAccount = accountRepository.findAccountByFullName(name);
             accountRepository.delete(foundAccount);
-        }
-        else {
+        } else {
             throw new UserNotFoundException(name);
         }
     }

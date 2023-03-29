@@ -49,7 +49,7 @@ public class GarageService {
     }
 
     public GarageDto getGarageByName(String name) {
-        GarageDto garageDto = new GarageDto();
+        GarageDto garageDto ;
         Optional<Garage> foundGarage = garageRepository.findById(name);
         if (foundGarage.isPresent()) {
             garageDto = GarageTransform.toGarageDto(foundGarage.get());

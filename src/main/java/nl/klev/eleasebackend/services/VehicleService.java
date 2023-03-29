@@ -23,7 +23,7 @@ public class VehicleService {
     }
 
     public VehicleDto createVehicle(VehicleInputDto vehicleInputDto) {
-        VehicleDto createdVehicleDto = new VehicleDto();
+        VehicleDto createdVehicleDto;
         Vehicle createdVehicle = VehicleTransform.toVehicle(vehicleInputDto);
         vehicleRepository.save(createdVehicle);
         createdVehicleDto = VehicleTransform.toVehicleDto(createdVehicle);
@@ -47,12 +47,12 @@ public class VehicleService {
     public List<VehicleDto> getAvailableVehicles() {
         List<VehicleDto> vehiclesDtoList = getVehicles();
         List<VehicleDto> availableVehiclesDtoList = new ArrayList<>();
-        for(VehicleDto v : vehiclesDtoList) {
-            if(!v.isRented()){
+        for (VehicleDto v : vehiclesDtoList) {
+            if (!v.isRented()) {
                 availableVehiclesDtoList.add(v);
             }
         }
-        if(availableVehiclesDtoList.isEmpty()) {
+        if (availableVehiclesDtoList.isEmpty()) {
             throw new RecordNotFoundException("No available vehicles, try later!");
         }
         return availableVehiclesDtoList;
@@ -106,6 +106,5 @@ public class VehicleService {
         } else {
             throw new RecordNotFoundException("Vehicle with the id has not been found!");
         }
-
     }
 }

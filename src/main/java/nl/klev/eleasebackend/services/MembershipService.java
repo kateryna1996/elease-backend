@@ -24,7 +24,7 @@ public class MembershipService {
     }
 
     public MembershipDto createMembership(MembershipInputDto inputDto) {
-        MembershipDto createdMembershipDto = new MembershipDto();
+        MembershipDto createdMembershipDto ;
         Membership createdMembership = MembershipTransform.toMembership(inputDto);
 
         membershipRepository.save(createdMembership);
@@ -45,7 +45,7 @@ public class MembershipService {
     }
 
     public MembershipDto getMembershipById(Long id) {
-        MembershipDto membershipDto = new MembershipDto();
+        MembershipDto membershipDto ;
         if (membershipExists(id)) {
             Optional<Membership> foundMembership = membershipRepository.findById(id);
             Membership found = foundMembership.get();

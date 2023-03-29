@@ -38,6 +38,7 @@ public class FileUploadService {
         }
         this.fileRepository = fileRepository;
     }
+
     public String storeFile(MultipartFile file, String url) {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
@@ -69,5 +70,4 @@ public class FileUploadService {
             throw new RuntimeException("the file doesn't exist or not readable");
         }
     }
-
 }
