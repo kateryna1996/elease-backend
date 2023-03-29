@@ -1,9 +1,6 @@
 package nl.klev.eleasebackend.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,8 +8,6 @@ import javax.persistence.Table;
 @Table(name = "files")
 public class FileResponse {
     @Id
-//    @GeneratedValue(generator = "uuid")
-//    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String fileName;
     private String fileType;
     private String fileUri;

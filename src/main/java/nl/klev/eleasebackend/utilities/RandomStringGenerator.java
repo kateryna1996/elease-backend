@@ -1,4 +1,5 @@
 package nl.klev.eleasebackend.utilities;
+
 import java.util.Random;
 
 public class RandomStringGenerator {

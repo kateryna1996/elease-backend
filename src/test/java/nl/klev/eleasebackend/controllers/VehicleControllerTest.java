@@ -110,4 +110,8 @@ class VehicleControllerTest {
                 .andExpect(status().isNoContent())
         ;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 56462df728c6a09a501a2d29398eb062bba4a715
 }

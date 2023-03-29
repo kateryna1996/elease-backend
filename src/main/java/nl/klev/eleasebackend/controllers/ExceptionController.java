@@ -27,6 +27,7 @@ public class ExceptionController {
     public ResponseEntity<Object> exception(FileSavingException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(value = FileNotFoundException.class)
     public ResponseEntity<Object> exception(FileNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);

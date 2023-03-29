@@ -12,7 +12,7 @@ public class GarageTransform {
         var garage = new Garage();
         var countryToCheck = garageInputDto.getCountry();
 
-        switch (countryToCheck){
+        switch (countryToCheck) {
             case NETHERLANDS:
             case BELGIUM:
                 break;

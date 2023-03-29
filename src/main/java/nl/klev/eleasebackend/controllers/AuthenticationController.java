@@ -17,7 +17,7 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService userDetailsService;
-    private final  JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     public AuthenticationController(AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
@@ -35,8 +35,7 @@ public class AuthenticationController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
-        }
-        catch (BadCredentialsException ex) {
+        } catch (BadCredentialsException ex) {
             throw new Exception("Incorrect username or password", ex);
         }
         final UserDetails userDetails = userDetailsService
