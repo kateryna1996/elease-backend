@@ -35,7 +35,6 @@ public class AccountTransform {
         if (account.getVehicle() != null) {
             accountDto.setVehicle(account.getVehicle());
         }
-
         return accountDto;
     }
 }

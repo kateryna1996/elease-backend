@@ -10,14 +10,11 @@ public class VehicleDto {
     private Vehicle.VehicleType type;
     private String brand;
     private String model;
-//    private int quantity;
     private boolean isRented;
     private boolean drivingLicenseRequired;
-//    private String licenseNumber;
     private double distanceRangeWithoutCharge;
     private Garage garage;
 
-//    license?
     public VehicleDto() {
     }
 
@@ -37,10 +34,6 @@ public class VehicleDto {
         return model;
     }
 
-//    public int getQuantity() {
-//        return quantity;
-//    }
-
     public boolean isRented() {
         return isRented;
     }
@@ -52,10 +45,6 @@ public class VehicleDto {
     public double getDistanceRangeWithoutCharge() {
         return distanceRangeWithoutCharge;
     }
-
-//    public String getLicenseNumber() {
-//        return licenseNumber;
-//    }
 
     public Garage getGarage() {
         return garage;
@@ -73,10 +62,6 @@ public class VehicleDto {
         this.model = model;
     }
 
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
-
     public void setRented(boolean rented) {
         isRented = rented;
     }
@@ -92,10 +77,6 @@ public class VehicleDto {
     public void setVehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
     }
-
-//    public void setLicenseNumber(String licenseNumber) {
-//        this.licenseNumber = licenseNumber;
-//    }
 
     public void setGarage(Garage garage) {
         this.garage = garage;

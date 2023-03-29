@@ -41,14 +41,12 @@ public class GarageController {
     @GetMapping("")
     public ResponseEntity<List<GarageDto>> getGarageList() {
         List<GarageDto> garageDtoList = garageService.getGarageList();
-
         return ResponseEntity.ok().body(garageDtoList);
     }
 
     @GetMapping("/{name}")
     public ResponseEntity<GarageDto> getGarageByName(@PathVariable("name") String name) {
         GarageDto garageDto = garageService.getGarageByName(name);
-
         return ResponseEntity.ok().body(garageDto);
     }
 
@@ -64,7 +62,7 @@ public class GarageController {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             garageService.updateGarage(name, garageInputDto);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body("Done!");
         }
     }
 

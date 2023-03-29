@@ -10,7 +10,7 @@ public class VehicleTransform {
     public static Vehicle toVehicle(VehicleInputDto vehicleInputDto) {
         var vehicle = new Vehicle();
         var type = vehicleInputDto.getType();
-        switch (type){
+        switch (type) {
             case ELECTRIC_CAR:
             case ELECTRIC_SCOOTER:
                 vehicle.setDrivingLicenseRequired(true);
@@ -24,13 +24,13 @@ public class VehicleTransform {
         vehicle.setModel(vehicleInputDto.getModel());
         vehicle.setDistanceRangeWithoutCharge(vehicleInputDto.getDistanceRangeWithoutCharge());
         vehicle.setType(type);
-        if (vehicle.getAccount()!= null) {
+        if (vehicle.getAccount() != null) {
             vehicle.setRented(true);
         }
         return vehicle;
     }
 
-    public static VehicleDto toVehicleDto(Vehicle vehicle){
+    public static VehicleDto toVehicleDto(Vehicle vehicle) {
         var vehicleDto = new VehicleDto();
 
         vehicleDto.setVehicleId(vehicle.getVehicleId());
@@ -39,10 +39,10 @@ public class VehicleTransform {
         vehicleDto.setModel(vehicle.getModel());
         vehicleDto.setDrivingLicenseRequired(vehicle.isDrivingLicenseRequired());
         vehicleDto.setDistanceRangeWithoutCharge(vehicle.getDistanceRangeWithoutCharge());
-        if(vehicle.getGarage() != null ) {
+        if (vehicle.getGarage() != null) {
             vehicleDto.setGarage(vehicle.getGarage());
         }
-        if(vehicle.getAccount() != null) {
+        if (vehicle.getAccount() != null) {
             vehicleDto.setRented(true);
         }
 

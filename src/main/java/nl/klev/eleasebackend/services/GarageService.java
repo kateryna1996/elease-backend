@@ -77,7 +77,11 @@ public class GarageService {
     }
 
     public void deleteGarageByName(String name) {
-        garageRepository.deleteById(name);
+        if(garageExists(name)) {
+            garageRepository.deleteById(name);
+        } else {
+            throw new RecordNotFoundException("The garage could not be deleted as it was not found");
+        }
     }
 
     public void updateGarage(String name, GarageInputDto garageInputDto) {
