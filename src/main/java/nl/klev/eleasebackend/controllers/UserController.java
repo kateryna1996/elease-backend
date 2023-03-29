@@ -104,6 +104,5 @@ public class UserController {
         } else {
             throw new RecordNotFoundException("The specified authority of this user was not found!");
         }
-
     }
 }

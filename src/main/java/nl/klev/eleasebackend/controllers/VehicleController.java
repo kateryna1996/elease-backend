@@ -54,11 +54,11 @@ public class VehicleController {
         return ResponseEntity.ok().body(vehicleDto);
     }
 
-//    @GetMapping("/brands/{brand}")
-//    public ResponseEntity<VehicleDto> getVehicleByBrand(@PathVariable("brand") String brand) {
-////        VehicleDto vehicleDto = vehicleService.getVehicleById(id);
-////        return ResponseEntity.ok().body(vehicleDto);
-//    }
+    @GetMapping("/brands/{brand}")
+    public ResponseEntity<List<VehicleDto>> getVehicleByBrand(@PathVariable("brand") String brand) {
+        List<VehicleDto> vehicleDtoList = vehicleService.getVehiclesByBrand(brand);
+        return ResponseEntity.ok().body(vehicleDtoList);
+    }
 
     @PutMapping("/{vehicleId}")
     public ResponseEntity<Object> updateVehicle(@PathVariable("vehicleId") Long id, @Valid @RequestBody VehicleInputDto vehicleInputDto, BindingResult bindingResult) {
@@ -71,13 +71,13 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{vehicleId}")
-    public ResponseEntity deleteVehicle(@PathVariable("vehicleId") Long id) {
+    public ResponseEntity<?> deleteVehicle(@PathVariable("vehicleId") Long id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{vehicleId}/{garageName}")
-    public ResponseEntity assignGarageToVehicle(@PathVariable("vehicleId") Long vehicleId, @PathVariable("garageName") String garageName) {
+    public ResponseEntity<?> assignGarageToVehicle(@PathVariable("vehicleId") Long vehicleId, @PathVariable("garageName") String garageName) {
         vehicleService.assignGarageToVehicles(vehicleId, garageName);
         return ResponseEntity.noContent().build();
     }

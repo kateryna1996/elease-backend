@@ -63,18 +63,16 @@ class MembershipServiceTest {
     @Test
     void gettingAllMemberships() {
         when(membershipRepository.findAll()).thenReturn(List.of(membership1, membership2));
-
         List<MembershipDto> memberships = membershipService.getMemberships();
 
         assertEquals(membership1.getMembershipId(), memberships.get(0).getId());
-        assertEquals(membership2.getMembershipId(), memberships.get(1).getId() );
+        assertEquals(membership2.getMembershipId(), memberships.get(1).getId());
     }
 
 
     @Test
     void membershipExistsCheck() {
         when(membershipRepository.existsById(anyLong())).thenReturn(true);
-
         Boolean ifExists = membershipService.membershipExists(1L);
 
         assertEquals(true, ifExists);
@@ -83,7 +81,6 @@ class MembershipServiceTest {
     @Test
     void shouldReturnMembershipById() {
         when(membershipRepository.existsById(1L)).thenReturn(true);
-
         when(membershipRepository.findById(anyLong())).thenReturn(Optional.of(membership1));
 
         MembershipDto membershipDto = membershipService.getMembershipById(1L);
@@ -94,7 +91,6 @@ class MembershipServiceTest {
     @Test
     void shouldDeleteMembership() {
         when(membershipRepository.existsById(1L)).thenReturn(true);
-
         membershipService.deleteMembershipById(1L);
 
         verify(membershipRepository).deleteById(1L);
@@ -103,14 +99,12 @@ class MembershipServiceTest {
     @Test
     void shouldUpdateMembership() {
         when(membershipRepository.existsById(1L)).thenReturn(true);
-
         when(membershipRepository.findById(1L)).thenReturn(Optional.of(membership1));
 
         membership1.setType(membershipDto1.getType());
         membership1.setMembershipStartDate(membershipDto1.getMembershipStartDate());
 
         membershipRepository.save(membership1);
-
         membershipService.updateMembership(1L, membershipDto1);
 
         assertEquals(1, membership1.getMembershipId());

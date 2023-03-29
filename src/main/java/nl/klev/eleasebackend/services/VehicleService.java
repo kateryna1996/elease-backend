@@ -70,6 +70,20 @@ public class VehicleService {
         return vehicleDto;
     }
 
+    public List<VehicleDto> getVehiclesByBrand(String brand) {
+        String properBrand = properStringCheck(brand);
+        List<Vehicle> allVehicles = vehicleRepository.findVehiclesByBrand(properBrand);
+        List<VehicleDto> vehiclesToDisplay = new ArrayList<>();
+
+        for (Vehicle v : allVehicles) {
+            vehiclesToDisplay.add(VehicleTransform.toVehicleDto(v));
+        }
+        if (vehiclesToDisplay.isEmpty()) {
+            throw new RecordNotFoundException("The vehicles of this brand have not been found!");
+        }
+        return vehiclesToDisplay;
+    }
+
     public void updateVehicle(Long id, VehicleInputDto vehicleInputDto) {
         if (vehicleExists(id)) {
             Vehicle updatedVehicle = vehicleRepository.findById(id).get();
@@ -106,5 +120,11 @@ public class VehicleService {
         } else {
             throw new RecordNotFoundException("Vehicle with the id has not been found!");
         }
+    }
+
+    public String properStringCheck(String string) {
+        String firstLetter = string.substring(0, 1).toUpperCase();
+        String stringBody = string.substring(1);
+        return firstLetter + stringBody;
     }
 }

@@ -64,7 +64,7 @@ public class GarageController {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             garageService.updateGarage(name, garageInputDto);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body("Done!");
         }
     }
 
@@ -73,5 +73,4 @@ public class GarageController {
         garageService.deleteGarageByName(name);
         return ResponseEntity.noContent().build();
     }
-
 }

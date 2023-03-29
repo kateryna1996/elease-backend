@@ -31,9 +31,7 @@ public class AccountController {
             return ResponseEntity.badRequest().body(ErrorReport.reportError(bindingResult));
         } else {
             AccountDto accountDto = accountService.createAccount(accountInputDto);
-
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/accounts/" + accountDto.getAccountId()).toUriString());
-
             return ResponseEntity.created(uri).body(accountDto);
         }
     }
