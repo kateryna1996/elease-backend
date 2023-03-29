@@ -98,12 +98,11 @@ public class UserController {
 
     @DeleteMapping("/{username}/authorities/{authority}")
     public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
-        if(userService.getAuthorities(authority) != null) {
+        if (userService.getAuthorities(authority) != null) {
             userService.removeAuthority(username, authority);
             return ResponseEntity.noContent().build();
         } else {
             throw new RecordNotFoundException("The specified authority of this user was not found!");
         }
-
     }
 }

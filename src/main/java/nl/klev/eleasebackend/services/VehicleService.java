@@ -47,12 +47,12 @@ public class VehicleService {
     public List<VehicleDto> getAvailableVehicles() {
         List<VehicleDto> vehiclesDtoList = getVehicles();
         List<VehicleDto> availableVehiclesDtoList = new ArrayList<>();
-        for(VehicleDto v : vehiclesDtoList) {
-            if(!v.isRented()){
+        for (VehicleDto v : vehiclesDtoList) {
+            if (!v.isRented()) {
                 availableVehiclesDtoList.add(v);
             }
         }
-        if(availableVehiclesDtoList.isEmpty()) {
+        if (availableVehiclesDtoList.isEmpty()) {
             throw new RecordNotFoundException("No available vehicles, try later!");
         }
         return availableVehiclesDtoList;
@@ -89,6 +89,20 @@ public class VehicleService {
         }
     }
 
+    public List<VehicleDto> getVehiclesByBrand(String brand) {
+        String properBrand = properStringCheck(brand);
+        List<Vehicle> allVehicles = vehicleRepository.findVehiclesByBrand(properBrand);
+        List<VehicleDto> vehiclesToDisplay = new ArrayList<>();
+
+        for (Vehicle v : allVehicles) {
+            vehiclesToDisplay.add(VehicleTransform.toVehicleDto(v));
+        }
+        if (vehiclesToDisplay.isEmpty()) {
+            throw new RecordNotFoundException("The vehicles of this brand have not been found!");
+        }
+        return vehiclesToDisplay;
+    }
+
     public boolean vehicleExists(Long id) {
         return vehicleRepository.existsById(id);
     }
@@ -106,6 +120,11 @@ public class VehicleService {
         } else {
             throw new RecordNotFoundException("Vehicle with the id has not been found!");
         }
+    }
 
+    public String properStringCheck(String string) {
+        String firstLetter = string.substring(0, 1).toUpperCase();
+        String stringBody = string.substring(1);
+        return firstLetter + stringBody;
     }
 }

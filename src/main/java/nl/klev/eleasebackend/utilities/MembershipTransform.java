@@ -41,7 +41,7 @@ public class MembershipTransform {
                 throw new RecordNotFoundException("Please choose one of the offered options: one month, one year or one day membership !");
         }
         membership.setMembershipEndDate(endDate);
-        if(membership.isParkingIncluded()) {
+        if (membership.isParkingIncluded()) {
             membership.setCosts(costs * 0.05);
         } else {
             membership.setCosts(costs);

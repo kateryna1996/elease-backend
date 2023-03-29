@@ -6,7 +6,7 @@ import org.springframework.validation.FieldError;
 public class ErrorReport {
     public static String reportError(BindingResult bindingResult) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(FieldError fe : bindingResult.getFieldErrors()) {
+        for (FieldError fe : bindingResult.getFieldErrors()) {
             stringBuilder.append(fe.getField() + " : ");
             stringBuilder.append(fe.getDefaultMessage());
             stringBuilder.append("\n");
